@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class TurnController : MonoBehaviour
 {
-    //public gameObject currentCharacter;
+    public GameObject currentCharacter;
     
     /*// Start is called before the first frame update
     void Start()
     {
         
-    }
+    }*/
 
     // Update is called once per frame
     void Update()
     {
         
-    }*/
+
+
+    }
 }
