@@ -3,7 +3,11 @@ guid: 2e019a8d8b28fc243927ddfc6f2b49c3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - currentCharacter: {instanceID: 0}
+  - grid: {instanceID: 0}
+  - userInterface: {instanceID: 0}
+  - selectedTile: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
