@@ -13,22 +13,32 @@ public class TurnController : MonoBehaviour
     [SerializeField] private Canvas userInterface;
     [SerializeField] private Tile tileSelected;
 
+    private Vector3Int prevCoordinates;
+
     void Start()
     {
         //UILayer.SetTile(new Vector3Int(0, 0, -1), tileSelected);
     }
 
-    Vector3Int prevCoordinates;
-
     void Update()
     {
         RaycastHit2D hit = Physics2D.Raycast(camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
 
+        ShowSelectedTile(hit);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            MoveCharacter(hit);
+        }
+    }
+
+    void ShowSelectedTile(RaycastHit2D hit)
+    {
         if (hit.collider != null)
         {
             Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
-            
+
             if (UILayer.GetTile(tilemapMousePos) == null)
             {
                 UILayer.SetTile(tilemapMousePos, tileSelected);
@@ -41,5 +51,12 @@ public class TurnController : MonoBehaviour
 
             prevCoordinates = tilemapMousePos;
         }
+    }
+
+    void MoveCharacter(RaycastHit2D hit)
+    {
+        Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
+        currentCharacter.transform.position = tilemapMousePos;
     }
 }
