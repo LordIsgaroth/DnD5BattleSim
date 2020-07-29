@@ -57,6 +57,6 @@ public class TurnController : MonoBehaviour
     {
         Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
-        currentCharacter.transform.position = tilemapMousePos;
+        currentCharacter.GetComponent<Character>().Move(tilemapMousePos, 0);
     }
 }
