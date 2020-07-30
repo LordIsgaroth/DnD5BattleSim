@@ -12,13 +12,16 @@ public class TurnController : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Canvas userInterface;
     [SerializeField] private Tile tileSelected;
+    [SerializeField] private Tile tileAvalible;
+
+    private Character character;
 
     private Vector3Int prevCoordinates;
 
     void Start()
     {
-        //UILayer.SetTile(new Vector3Int(0, 0, -1), tileSelected);
-    }
+        character = currentCharacter.GetComponent<Character>();
+}
 
     void Update()
     {
@@ -57,6 +60,11 @@ public class TurnController : MonoBehaviour
     {
         Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
-        currentCharacter.GetComponent<Character>().Move(tilemapMousePos, 0);
+
+        character.Move(tilemapMousePos, 0);
+
+        Debug.Log("Character moved to: " + tilemapMousePos);
+
+        Hashtable avalibleTiles = CharacterMovement.GetAvalibleTiles(tilemapMousePos, character.CurrentSpeed, 1);
     }
 }

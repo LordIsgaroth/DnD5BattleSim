@@ -5,25 +5,20 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] private int speed;
+    [SerializeField] private int multiplier;
+
     private int currentSpeed;
+
+    public int CurrentSpeed
+    {
+        get { return currentSpeed; }
+    }
 
     Character()
     {
         RenewMovementSpeed();
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public void Move(Vector3Int newPosition, int cost)
     {
         Transform transform = GetComponent<Transform>();
