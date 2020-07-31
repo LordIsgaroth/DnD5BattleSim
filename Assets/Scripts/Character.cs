@@ -25,8 +25,13 @@ public class Character : MonoBehaviour
         transform.position = newPosition;
     }
 
-    void RenewMovementSpeed()
+    public void RenewMovementSpeed()
     {
         currentSpeed = speed;
+    }
+
+    public void ChangeCurrentSpeedByCost(int cost)
+    {
+        currentSpeed -= cost;
     }
 }

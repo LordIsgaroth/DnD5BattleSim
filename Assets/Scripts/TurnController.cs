@@ -65,14 +65,18 @@ public class TurnController : MonoBehaviour
         Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
 
-        character.Move(tilemapMousePos, 0);
+        if(avalibleTiles.Contains(tilemapMousePos))
+        {
+            character.Move(tilemapMousePos, 0);
+            character.ChangeCurrentSpeedByCost((int)avalibleTiles[tilemapMousePos]);
 
-        Debug.Log("Character moved to: " + tilemapMousePos);
+            Debug.Log("Character moved to: " + tilemapMousePos);
 
-        ClearAvalibleTiles(avalibleTiles);
+            ClearAvalibleTiles(avalibleTiles);
 
-        avalibleTiles = CharacterMovement.GetAvalibleTiles(tilemapMousePos, character.CurrentSpeed, 1);
-        ShowAvalibleTiles(avalibleTiles);
+            avalibleTiles = CharacterMovement.GetAvalibleTiles(tilemapMousePos, character.CurrentSpeed, 1);
+            ShowAvalibleTiles(avalibleTiles);
+        }       
     }
 
     void ShowAvalibleTiles(Hashtable avalibleTiles)
