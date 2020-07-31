@@ -8,6 +8,7 @@ public class TurnController : MonoBehaviour
     [SerializeField] private GameObject currentCharacter;
     [SerializeField] private Grid grid;
     [SerializeField] private Tilemap UILayer;
+    [SerializeField] private Tilemap CursorLayer;
     [SerializeField] private Camera camera;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Canvas userInterface;
@@ -42,14 +43,14 @@ public class TurnController : MonoBehaviour
             Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
 
-            if (UILayer.GetTile(tilemapMousePos) == null)
+            if (CursorLayer.GetTile(tilemapMousePos) == null)
             {
-                UILayer.SetTile(tilemapMousePos, tileSelected);
+                CursorLayer.SetTile(tilemapMousePos, tileSelected);
             }
 
             if (tilemapMousePos != prevCoordinates)
             {
-                UILayer.SetTile(prevCoordinates, null);
+                CursorLayer.SetTile(prevCoordinates, null);
             }
 
             prevCoordinates = tilemapMousePos;
