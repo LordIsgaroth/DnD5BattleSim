@@ -13602,6 +13602,7 @@ MonoBehaviour:
   currentCharacter: {fileID: 315632222}
   grid: {fileID: 2107598002}
   UILayer: {fileID: 175188170}
+  CursorLayer: {fileID: 978042244}
   camera: {fileID: 519420031}
   layerMask:
     serializedVersion: 2
