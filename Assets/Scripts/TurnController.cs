@@ -24,6 +24,7 @@ public class TurnController : MonoBehaviour
     {
         character = currentCharacter.GetComponent<Character>();
         avalibleTiles = CharacterMovement.GetAvalibleTiles(Vector3Int.FloorToInt(character.transform.position), character.CurrentSpeed, 1);
+        ShowAvalibleTiles(avalibleTiles);
     }
 
     void Update()
@@ -68,7 +69,7 @@ public class TurnController : MonoBehaviour
 
         Debug.Log("Character moved to: " + tilemapMousePos);
 
-        
+        ClearAvalibleTiles(avalibleTiles);
 
         avalibleTiles = CharacterMovement.GetAvalibleTiles(tilemapMousePos, character.CurrentSpeed, 1);
         ShowAvalibleTiles(avalibleTiles);
@@ -82,5 +83,13 @@ public class TurnController : MonoBehaviour
         }        
     }
 
-    
+    void ClearAvalibleTiles(Hashtable avalibleTiles)
+    {
+        foreach (Vector3Int position in avalibleTiles.Keys)
+        {
+            UILayer.SetTile(position, null);
+        }
+
+        avalibleTiles.Clear();
+    }
 }
