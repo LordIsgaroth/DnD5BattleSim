@@ -22,9 +22,7 @@ public class TurnController : MonoBehaviour
 
     void Start()
     {
-        character = currentCharacter.GetComponent<Character>();
-        avalibleTiles = CharacterMovement.GetAvalibleTiles(Vector3Int.FloorToInt(character.transform.position), character.CurrentSpeed, 1);
-        ShowAvalibleTiles(avalibleTiles);
+        StartTurn();
     }
 
     void Update()
@@ -37,6 +35,13 @@ public class TurnController : MonoBehaviour
         {
             MoveCharacter(hit);
         }
+    }
+
+    public void StartTurn()
+    {
+        character = currentCharacter.GetComponent<Character>();
+        avalibleTiles = CharacterMovement.GetAvalibleTiles(Vector3Int.FloorToInt(character.transform.position), character.CurrentSpeed, 1);
+        ShowAvalibleTiles(avalibleTiles);
     }
 
     void ShowSelectedTile(RaycastHit2D hit)
