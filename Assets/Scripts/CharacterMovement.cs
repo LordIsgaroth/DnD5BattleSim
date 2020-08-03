@@ -44,14 +44,17 @@ public static class CharacterMovement
                     Vector3Int neighbor = new Vector3Int(currentPosition.x + x, currentPosition.y + y, currentPosition.z);
 
                     int currentMultiplier = multiplier;
-                    int neighborCost = tileCost * currentMultiplier;                
+                    int neighborCost = tileCost * currentMultiplier;
 
-                    if(!avalibleTiles.Contains(neighbor))
+                    if (neighborCost <= remainingSpeed)
                     {
-                        avalibleTiles.Add(neighbor, neighborCost);
-                    }
+                        if (!avalibleTiles.Contains(neighbor))
+                        {
+                            avalibleTiles.Add(neighbor, neighborCost);
+                        }
 
-                    remainingSpeed -= neighborCost;
+                        //remainingSpeed -= neighborCost;
+                    }                    
                 }
             }
         }

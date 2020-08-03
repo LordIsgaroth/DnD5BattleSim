@@ -14,8 +14,8 @@ public class Character : MonoBehaviour
         get { return currentSpeed; }
     }
 
-    Character()
-    {
+    void Start()
+    {        
         RenewMovementSpeed();
     }
     
