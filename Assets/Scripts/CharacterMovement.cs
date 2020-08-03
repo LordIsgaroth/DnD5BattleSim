@@ -3,10 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public static class CharacterMovement
 {
     private const int tileCost = 5;
+    private static Tilemap normalTerrain;
+    private static Tilemap difficultTerrain;
+    private static Tilemap impassableTerrain;
+
+    static CharacterMovement()
+    {
+        normalTerrain = FindTerrainByName("NormalTerrain").GetComponent<Tilemap>();
+        difficultTerrain = FindTerrainByName("DifficultTerrain").GetComponent<Tilemap>();
+        impassableTerrain = FindTerrainByName("ImpassableTerrain").GetComponent<Tilemap>();
+    }    
 
     public static Hashtable GetAvalibleTiles(Vector3Int position, int speed, int multiplier)
     {
@@ -33,7 +44,7 @@ public static class CharacterMovement
                     Vector3Int neighbor = new Vector3Int(currentPosition.x + x, currentPosition.y + y, currentPosition.z);
 
                     int currentMultiplier = multiplier;
-                    int neighborCost = tileCost * currentMultiplier;                    
+                    int neighborCost = tileCost * currentMultiplier;                
 
                     if(!avalibleTiles.Contains(neighbor))
                     {
@@ -44,5 +55,10 @@ public static class CharacterMovement
                 }
             }
         }
+    }
+
+    private static GameObject FindTerrainByName(string name)
+    {
+        return GameObject.Find(name);
     }
 }
