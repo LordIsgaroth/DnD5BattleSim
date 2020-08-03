@@ -52,7 +52,12 @@ public static class CharacterMovement
                         {
                             avalibleTiles.Add(neighbor, neighborCost);
                         }
+                        else
+                        {
+                            avalibleTiles[neighbor] = neighborCost;
+                        }
 
+                        calculateNeighborCost(avalibleTiles, neighbor, remainingSpeed - neighborCost, multiplier);
                         //remainingSpeed -= neighborCost;
                     }                    
                 }
