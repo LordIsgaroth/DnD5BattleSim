@@ -28,12 +28,12 @@ public static class CharacterMovement
         unavailibeTiles.Add(position);
 
         //Расчет стоимости передвижения по доступным тайлам
-        calculateNeighborCost(avalibleTiles, position, speed, multiplier);
+        calculateNeighborCost(avalibleTiles, unavailibeTiles, position, speed, multiplier, 0);
 
         return avalibleTiles;
     }
 
-    private static void calculateNeighborCost(Hashtable avalibleTiles, Vector3Int currentPosition, int remainingSpeed, int multiplier)
+    private static void calculateNeighborCost(Hashtable avalibleTiles, HashSet<Vector3Int> unavailibeTiles, Vector3Int currentPosition, int remainingSpeed, int multiplier, int totalCost)
     {
         for (int x = -1; x <= 1; x++)
         {
@@ -43,22 +43,27 @@ public static class CharacterMovement
                 {
                     Vector3Int neighbor = new Vector3Int(currentPosition.x + x, currentPosition.y + y, currentPosition.z);
 
+                    if (unavailibeTiles.Contains(neighbor))
+                    {
+                        continue;
+                    }
+
                     int currentMultiplier = multiplier;
                     int neighborCost = tileCost * currentMultiplier;
+                    int currentTotalCost = totalCost + neighborCost;
 
                     if (neighborCost <= remainingSpeed)
                     {
                         if (!avalibleTiles.Contains(neighbor))
                         {
-                            avalibleTiles.Add(neighbor, neighborCost);
+                            avalibleTiles.Add(neighbor, currentTotalCost);
                         }
-                        else
+                        else if ((int)avalibleTiles[neighbor] > currentTotalCost)
                         {
-                            avalibleTiles[neighbor] = neighborCost;
+                            avalibleTiles[neighbor] = currentTotalCost;
                         }
 
-                        calculateNeighborCost(avalibleTiles, neighbor, remainingSpeed - neighborCost, multiplier);
-                        //remainingSpeed -= neighborCost;
+                        calculateNeighborCost(avalibleTiles, unavailibeTiles, neighbor, remainingSpeed - neighborCost, multiplier, currentTotalCost);
                     }                    
                 }
             }
