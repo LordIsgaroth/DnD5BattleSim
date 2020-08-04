@@ -31,30 +31,35 @@ public static class CharacterMovement
         unavailibeTiles.Add(position);
 
         //Расчет стоимости передвижения по доступным тайлам
-        calculateNeighborCost(avalibleTiles, unavailibeTiles, position, speed, multiplier, 0);
-
+        calculateNeighborCost(avalibleTiles, unavailibeTiles, position, position, speed, multiplier, 0);
 
         Debug.Log(counter);
 
         return avalibleTiles;
     }
 
-    private static void calculateNeighborCost(Hashtable avalibleTiles, HashSet<Vector3Int> unavailibeTiles, Vector3Int currentPosition, int remainingSpeed, int multiplier, int totalCost)
+    private static void calculateNeighborCost(Hashtable avalibleTiles, HashSet<Vector3Int> unavailibeTiles, Vector3Int currentPosition, Vector3Int prevPosition, int remainingSpeed, int multiplier, int totalCost)
     {
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
             {
                 if (!(x == 0 && y == 0) && (Mathf.Abs(x) != Mathf.Abs(y)))
-                {
-                    counter++;
-
+                {                    
                     Vector3Int neighbor = new Vector3Int(currentPosition.x + x, currentPosition.y + y, currentPosition.z);
 
-                    if (unavailibeTiles.Contains(neighbor))
+                    if (unavailibeTiles.Contains(neighbor) || neighbor == prevPosition)
                     {
                         continue;
                     }
+
+                    if (tilemapContainsPosition(impassableTerrain, neighbor) || !tilemapContainsPosition(normalTerrain, neighbor))
+                    {
+                        unavailibeTiles.Add(neighbor);
+                        continue;
+                    }                    
+
+                    counter++;
 
                     int currentMultiplier = multiplier;
                     int neighborCost = tileCost * currentMultiplier;
@@ -64,18 +69,34 @@ public static class CharacterMovement
                     {
                         if (!avalibleTiles.Contains(neighbor))
                         {
-                            avalibleTiles.Add(neighbor, currentTotalCost);
+                            avalibleTiles.Add(neighbor, currentTotalCost);                            
                         }
                         else if ((int)avalibleTiles[neighbor] > currentTotalCost)
                         {
                             avalibleTiles[neighbor] = currentTotalCost;
                         }
+                        else
+                        {
+                            continue;
+                        }
 
-                        calculateNeighborCost(avalibleTiles, unavailibeTiles, neighbor, remainingSpeed - neighborCost, multiplier, currentTotalCost);
+                        calculateNeighborCost(avalibleTiles, unavailibeTiles, neighbor, currentPosition, remainingSpeed - neighborCost, multiplier, currentTotalCost);
                     }                    
                 }
             }
         }
+    }
+
+    private static bool tilemapContainsPosition(Tilemap tilemap, Vector3Int position)
+    {
+        if(tilemap.GetTile(position))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }       
     }
 
     private static GameObject FindTerrainByName(string name)
