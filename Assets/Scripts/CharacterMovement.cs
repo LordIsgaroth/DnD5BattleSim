@@ -11,6 +11,7 @@ public static class CharacterMovement
     private static Tilemap normalTerrain;
     private static Tilemap difficultTerrain;
     private static Tilemap impassableTerrain;
+    private static int counter;
 
     static CharacterMovement()
     {
@@ -24,11 +25,16 @@ public static class CharacterMovement
         Hashtable avalibleTiles = new Hashtable();
         HashSet<Vector3Int> unavailibeTiles = new HashSet<Vector3Int>();
 
+        counter = 0;
+
         //Тайл, где стоит персонаж, должен остаться недоступным
         unavailibeTiles.Add(position);
 
         //Расчет стоимости передвижения по доступным тайлам
         calculateNeighborCost(avalibleTiles, unavailibeTiles, position, speed, multiplier, 0);
+
+
+        Debug.Log(counter);
 
         return avalibleTiles;
     }
@@ -41,6 +47,8 @@ public static class CharacterMovement
             {
                 if (!(x == 0 && y == 0) && (Mathf.Abs(x) != Mathf.Abs(y)))
                 {
+                    counter++;
+
                     Vector3Int neighbor = new Vector3Int(currentPosition.x + x, currentPosition.y + y, currentPosition.z);
 
                     if (unavailibeTiles.Contains(neighbor))
