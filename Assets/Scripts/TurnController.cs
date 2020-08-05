@@ -80,6 +80,7 @@ public class TurnController : MonoBehaviour
         {
             character.Move(tilemapMousePos, 0);
             character.ChangeCurrentSpeedByCost((int)avalibleTiles[tilemapMousePos]);
+            this.GetComponent<GameController>().ChangeCharacterPosition(character, tilemapMousePos);
 
             Debug.Log("Character moved to: " + tilemapMousePos);
 

@@ -11,13 +11,15 @@ public static class CharacterMovement
     private static Tilemap normalTerrain;
     private static Tilemap difficultTerrain;
     private static Tilemap impassableTerrain;
+    private static GameController gameController;
     private static int counter;
 
     static CharacterMovement()
     {
-        normalTerrain = FindTerrainByName("NormalTerrain").GetComponent<Tilemap>();
-        difficultTerrain = FindTerrainByName("DifficultTerrain").GetComponent<Tilemap>();
-        impassableTerrain = FindTerrainByName("ImpassableTerrain").GetComponent<Tilemap>();
+        normalTerrain = FindObjectByName("NormalTerrain").GetComponent<Tilemap>();
+        difficultTerrain = FindObjectByName("DifficultTerrain").GetComponent<Tilemap>();
+        impassableTerrain = FindObjectByName("ImpassableTerrain").GetComponent<Tilemap>();
+        gameController = FindObjectByName("GameManager").GetComponent<GameController>();
     }    
 
     public static Hashtable GetAvalibleTiles(Vector3Int position, int speed, int multiplier)
@@ -57,7 +59,13 @@ public static class CharacterMovement
                     {
                         unavailibeTiles.Add(neighbor);
                         continue;
-                    }                    
+                    }
+
+                    if(gameController.CharacterAtPosition(neighbor))
+                    {
+                        unavailibeTiles.Add(neighbor);
+                        continue;
+                    }
 
                     counter++;
 
@@ -105,7 +113,7 @@ public static class CharacterMovement
         }       
     }
 
-    private static GameObject FindTerrainByName(string name)
+    private static GameObject FindObjectByName(string name)
     {
         return GameObject.Find(name);
     }
