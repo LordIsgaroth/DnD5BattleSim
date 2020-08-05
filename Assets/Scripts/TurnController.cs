@@ -40,7 +40,13 @@ public class TurnController : MonoBehaviour
     public void StartTurn()
     {
         character = currentCharacter.GetComponent<Character>();
-        avalibleTiles = CharacterMovement.GetAvalibleTiles(Vector3Int.FloorToInt(character.transform.position), character.CurrentSpeed, 1);
+        int multiplier = 1;
+
+        if (character.isCrawling)
+        {
+            multiplier++;
+        }
+        avalibleTiles = CharacterMovement.GetAvalibleTiles(Vector3Int.FloorToInt(character.transform.position), character.CurrentSpeed, multiplier);
         ShowAvalibleTiles(avalibleTiles);
     }
 

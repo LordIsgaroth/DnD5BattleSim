@@ -5,13 +5,18 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] private int speed;
-    [SerializeField] private int multiplier;
+    [SerializeField] private bool crawling;
 
     private int currentSpeed;
 
     public int CurrentSpeed
     {
         get { return currentSpeed; }
+    }
+
+    public bool isCrawling
+    {
+        get { return crawling; }
     }
 
     void Start()

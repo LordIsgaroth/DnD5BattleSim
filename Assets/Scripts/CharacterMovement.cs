@@ -62,6 +62,12 @@ public static class CharacterMovement
                     counter++;
 
                     int currentMultiplier = multiplier;
+
+                    if (tilemapContainsPosition(difficultTerrain, neighbor))
+                    {
+                        currentMultiplier++;
+                    }
+
                     int neighborCost = tileCost * currentMultiplier;
                     int currentTotalCost = totalCost + neighborCost;
 
