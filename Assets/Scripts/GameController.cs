@@ -8,7 +8,6 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("1");
         charactersAndPositions = new Hashtable();
 
         GameObject[] allCharacters = GameObject.FindGameObjectsWithTag("Character");
@@ -35,8 +34,6 @@ public class GameController : MonoBehaviour
 
     public bool CharacterAtPosition(Vector3Int position)
     {
-        Debug.Log("2");
-        return false;            
-        //return charactersAndPositions.ContainsValue(position);
+        return charactersAndPositions.ContainsValue(position);
     }
 }

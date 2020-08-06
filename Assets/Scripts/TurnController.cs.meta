@@ -8,7 +8,7 @@ MonoImporter:
   - grid: {instanceID: 0}
   - userInterface: {instanceID: 0}
   - selectedTile: {instanceID: 0}
-  executionOrder: 0
+  executionOrder: 200
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
