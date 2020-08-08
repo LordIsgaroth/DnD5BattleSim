@@ -2,31 +2,104 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public sealed class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera camera;
 
-    private Vector3 MousePosition;
-    private float angle;
-    public float sensitivity = 1F;
+    [Range(0f, 10f)] public float moveSpeed = 10f;
+    [Range(0f, 5f)] public float sensitivity = 3f;
 
-    // Start is called before the first frame update
-    void Start()
+    private Vector2 tempCenter, targetDirection, tempMousePos;
+
+    public bool isDragging { get; private set; }
+
+    private void Start() 
     {
-        
+        //tempCenter = new Vector2();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        MousePosition = Input.mousePosition;
+        UpdateInput();
+        UpdatePosition();
     }
 
     void FixedUpdate()
     {
-        /*angle = sensitivity * ((MousePosition.x - (Screen.width / 2)) / Screen.width);
-        camera.transform.RotateAround(camera.transform.position, camera.transform.up, angle);
-        angle = sensitivity * ((MousePosition.y - (Screen.height / 2)) / Screen.height);
-        camera.transform.RotateAround(camera.transform.position, camera.transform.right, -angle);*/
+        
+    }
+
+    private void UpdateInput()
+    {
+        Vector2 mousePosition = Input.mousePosition;
+        if (Input.GetMouseButtonDown(1)) OnPointDown(mousePosition);
+        else if (Input.GetMouseButtonUp(1)) OnPointUp(mousePosition);
+        else if (Input.GetMouseButton(1)) OnPointMove(mousePosition);
+    }
+
+    private void UpdatePosition()
+    {
+        float speed = Time.deltaTime * this.moveSpeed;
+        float tempSens = 0f;
+
+        if (this.isDragging)
+        {
+            tempSens = this.sensitivity;
+        }
+        else 
+        { 
+            tempSens = Mathf.Lerp(tempSens, 0f, speed);
+        }
+
+        Vector3 newPosition = camera.transform.position + (Vector3)this.targetDirection * tempSens;
+        Debug.Log(camera.transform.position);
+        Debug.Log(newPosition);
+        camera.transform.position = Vector3.Lerp(camera.transform.position, newPosition, speed);
+    }
+
+    private void OnPointDown(Vector2 mousePosition) 
+    {
+        this.tempCenter = GetWorldPoint(mousePosition);
+        this.targetDirection = Vector2.zero;
+        this.tempMousePos = mousePosition;
+        this.isDragging = true;
+    }
+
+    private void OnPointMove(Vector2 mousePosition)
+    {
+        if (this.isDragging)
+        {
+            Vector2 point = GetWorldPoint(mousePosition);
+
+            float sqrDist = (this.tempCenter - point).sqrMagnitude;
+
+            if (sqrDist > 0.1f)
+            {
+                this.targetDirection = (this.tempMousePos - mousePosition).normalized;
+                this.tempMousePos = mousePosition;
+            }
+        }
+    }
+
+    private void OnPointUp(Vector2 mousePosition) 
+    {
+        this.isDragging = false;
+    }
+
+    private Vector2 GetWorldPoint(Vector2 mousePosition)
+    {
+        Vector2 point = Vector2.zero;
+
+        Ray ray = camera.ScreenPointToRay(mousePosition);
+
+        Vector3 normal = Vector3.forward;
+        Vector3 position = Vector3.zero;
+        Plane plane = new Plane(normal, position);
+
+        float distance;
+        plane.Raycast(ray, out distance);
+        point = ray.GetPoint(distance);
+
+        return point;
     }
 }
