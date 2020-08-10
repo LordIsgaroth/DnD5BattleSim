@@ -4,36 +4,41 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private Hashtable charactersAndPositions;
+    private List<Character> allCharacters;
 
     void Start()
     {
-        charactersAndPositions = new Hashtable();
+        allCharacters = new List<Character>();
 
-        GameObject[] allCharacters = GameObject.FindGameObjectsWithTag("Character");
+        GameObject[] allCharacterObjects = GameObject.FindGameObjectsWithTag("Character");
 
-        foreach(GameObject characterObject in allCharacters)
+        foreach(GameObject characterObject in allCharacterObjects)
         {
             Character character = characterObject.GetComponent<Character>();
-            charactersAndPositions.Add(character, Vector3Int.FloorToInt(characterObject.transform.position));
+            allCharacters.Add(character);
         }
     }
         
     public void NewRound()
     {
-        foreach(Character caracter in charactersAndPositions.Keys)
+        foreach(Character caracter in allCharacters)
         {
             caracter.RenewMovementSpeed();
         }
     }
 
-    public void ChangeCharacterPosition(Character character, Vector3Int position)
+    public Character CharacterAtPosition(Vector3Int position)
     {
-        charactersAndPositions[character] = position;
-    }
+        foreach (Character character in allCharacters)
+        {
+            Vector3Int characterPosition = Vector3Int.FloorToInt(character.transform.position);
+                
+            if (characterPosition == position)
+            {
+                return character;
+            }
+        }
 
-    public bool CharacterAtPosition(Vector3Int position)
-    {
-        return charactersAndPositions.ContainsValue(position);
+        return null;
     }
 }

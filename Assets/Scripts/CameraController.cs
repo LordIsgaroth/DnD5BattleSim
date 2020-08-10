@@ -13,20 +13,10 @@ public sealed class CameraController : MonoBehaviour
 
     public bool isDragging { get; private set; }
 
-    private void Start() 
-    {
-        //tempCenter = new Vector2();
-    }
-
     private void Update()
     {
         UpdateInput();
         UpdatePosition();
-    }
-
-    void FixedUpdate()
-    {
-        
     }
 
     private void UpdateInput()
@@ -52,8 +42,6 @@ public sealed class CameraController : MonoBehaviour
         }
 
         Vector3 newPosition = camera.transform.position + (Vector3)this.targetDirection * tempSens;
-        Debug.Log(camera.transform.position);
-        Debug.Log(newPosition);
         camera.transform.position = Vector3.Lerp(camera.transform.position, newPosition, speed);
     }
 

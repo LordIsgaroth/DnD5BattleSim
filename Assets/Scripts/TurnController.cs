@@ -40,13 +40,7 @@ public class TurnController : MonoBehaviour
     public void StartTurn()
     {
         character = currentCharacter.GetComponent<Character>();
-        int multiplier = 1;
-
-        if (character.isCrawling)
-        {
-            multiplier++;
-        }
-        avalibleTiles = CharacterMovement.GetAvalibleTiles(Vector3Int.FloorToInt(character.transform.position), character.CurrentSpeed, multiplier);
+        avalibleTiles = CharacterMovement.GetAvalibleTiles(character);
         ShowAvalibleTiles(avalibleTiles);
     }
 
@@ -80,13 +74,13 @@ public class TurnController : MonoBehaviour
         {
             character.Move(tilemapMousePos, 0);
             character.ChangeCurrentSpeedByCost((int)avalibleTiles[tilemapMousePos]);
-            this.GetComponent<GameController>().ChangeCharacterPosition(character, tilemapMousePos);
+            //this.GetComponent<GameController>().ChangeCharacterPosition(character, tilemapMousePos);
 
             Debug.Log("Character moved to: " + tilemapMousePos);
 
             ClearAvalibleTiles(avalibleTiles);
 
-            avalibleTiles = CharacterMovement.GetAvalibleTiles(tilemapMousePos, character.CurrentSpeed, 1);
+            avalibleTiles = CharacterMovement.GetAvalibleTiles(character);
             ShowAvalibleTiles(avalibleTiles);
         }       
     }

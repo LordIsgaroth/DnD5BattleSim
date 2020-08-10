@@ -22,25 +22,27 @@ public static class CharacterMovement
         gameController = FindObjectByName("GameManager").GetComponent<GameController>();
     }    
 
-    public static Hashtable GetAvalibleTiles(Vector3Int position, int speed, int multiplier)
+    public static Hashtable GetAvalibleTiles(Character character)//Vector3Int position, int speed, int multiplier)
     {
         Hashtable avalibleTiles = new Hashtable();
         HashSet<Vector3Int> unavailibeTiles = new HashSet<Vector3Int>();
 
         counter = 0;
 
+        Vector3Int position = Vector3Int.FloorToInt(character.transform.position);
+
         //Тайл, где стоит персонаж, должен остаться недоступным
         unavailibeTiles.Add(position);
 
         //Расчет стоимости передвижения по доступным тайлам
-        calculateNeighborCost(avalibleTiles, unavailibeTiles, position, position, speed, multiplier, 0);
+        calculateNeighborCost(avalibleTiles, unavailibeTiles, position, position, character.CurrentSpeed, character, 0);
 
         Debug.Log(counter);
 
         return avalibleTiles;
     }
 
-    private static void calculateNeighborCost(Hashtable avalibleTiles, HashSet<Vector3Int> unavailibeTiles, Vector3Int currentPosition, Vector3Int prevPosition, int remainingSpeed, int multiplier, int totalCost)
+    private static void calculateNeighborCost(Hashtable avalibleTiles, HashSet<Vector3Int> unavailibeTiles, Vector3Int currentPosition, Vector3Int prevPosition, int remainingSpeed, Character character, int totalCost)
     {
         for (int x = -1; x <= 1; x++)
         {
@@ -61,20 +63,39 @@ public static class CharacterMovement
                         continue;
                     }
 
-                    if(gameController.CharacterAtPosition(neighbor))
+                    Character characterAtPosition = gameController.CharacterAtPosition(neighbor);
+                    bool friendlyCharacterAtPosition = false;
+
+                    if (characterAtPosition)
                     {
                         unavailibeTiles.Add(neighbor);
-                        continue;
+
+                        if(characterAtPosition.Team == character.Team)
+                        {
+                            friendlyCharacterAtPosition = true;
+                        }
+                        else
+                        {
+                            continue;
+                        }                        
                     }
 
                     counter++;
 
-                    int currentMultiplier = multiplier;
+                    int currentMultiplier = 1;
 
-                    if (tilemapContainsPosition(difficultTerrain, neighbor))
+                    if(!character.isFlying)
                     {
-                        currentMultiplier++;
-                    }
+                        if (character.isCrawling)
+                        {
+                            currentMultiplier++;
+                        }
+
+                        if (tilemapContainsPosition(difficultTerrain, neighbor) | friendlyCharacterAtPosition)
+                        {
+                            currentMultiplier++;
+                        }
+                    }                    
 
                     int neighborCost = tileCost * currentMultiplier;
                     int currentTotalCost = totalCost + neighborCost;
@@ -83,18 +104,20 @@ public static class CharacterMovement
                     {
                         if (!avalibleTiles.Contains(neighbor))
                         {
-                            avalibleTiles.Add(neighbor, currentTotalCost);                            
+                            if(!friendlyCharacterAtPosition)
+                                avalibleTiles.Add(neighbor, currentTotalCost);                            
                         }
                         else if ((int)avalibleTiles[neighbor] > currentTotalCost)
                         {
-                            avalibleTiles[neighbor] = currentTotalCost;
+                            if (!friendlyCharacterAtPosition)
+                                avalibleTiles[neighbor] = currentTotalCost;
                         }
                         else
                         {
                             continue;
                         }
 
-                        calculateNeighborCost(avalibleTiles, unavailibeTiles, neighbor, currentPosition, remainingSpeed - neighborCost, multiplier, currentTotalCost);
+                        calculateNeighborCost(avalibleTiles, unavailibeTiles, neighbor, currentPosition, remainingSpeed - neighborCost, character, currentTotalCost);
                     }                    
                 }
             }

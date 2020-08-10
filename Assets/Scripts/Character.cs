@@ -5,7 +5,9 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] private int speed;
+    [SerializeField] private int team;
     [SerializeField] private bool crawling;
+    [SerializeField] private bool flying;
 
     private int currentSpeed;
 
@@ -17,6 +19,16 @@ public class Character : MonoBehaviour
     public bool isCrawling
     {
         get { return crawling; }
+    }
+
+    public bool isFlying
+    {
+        get { return flying; }
+    }
+
+    public int Team
+    {
+        get { return team; }
     }
 
     void Start()
