@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private int speed;
+    //Команда - определяет, какие персонажи дружественные, какие - враждебные
     [SerializeField] private int team;
+
+    //Скорость перемещения в футах (исходная)
+    [SerializeField] private int speed;
+    
+    //Состояния, влияющие на передвижение
     [SerializeField] private bool crawling;
     [SerializeField] private bool flying;
 
+    [SerializeField] private int maxHitPoints;
+    [SerializeField] private int armorClass;
+
     private int currentSpeed;
+    private int currentHitPoints;
+    private int currentArmorClass;
 
     public int CurrentSpeed
     {
