@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Equipment
 {
+    private string name;
     private int weight;
-    private int cost;
+    private int value;
 }
