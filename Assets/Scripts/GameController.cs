@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Library.initializeGameData();
+
         allCharacters = new List<Character>();
 
         GameObject[] allCharacterObjects = GameObject.FindGameObjectsWithTag("Character");

@@ -2,9 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Library
+/*public enum EquipmentType
 {
-    //public List
+    LightArmor,
+    MediumArmor,
+    HeavyArmor,
+    Shield,
+    MeleeVeapon,
+    RangedWeapon
+}*/
 
+public static class Library
+{
+   // public static Dictionary<string, EquipmentType> equipmentTypes;
 
+    /*static Library()
+    {
+        
+    }*/
+
+    public static void initializeGameData()
+    {
+        initializeEquipmentTypes();
+        Debug.Log(EquipmentType.FindByShortcut("LA").Name);
+    }
+
+    private static void initializeEquipmentTypes()
+    {
+        new EquipmentType("LA", "Light armor");
+        new EquipmentType("MA", "Medium armor");
+        new EquipmentType("HA", "Heavy armor");
+        new EquipmentType("S", "Shield");
+        new EquipmentType("M", "Melee weapon");
+        new EquipmentType("R", "Ranged weapon");
+    }
 }

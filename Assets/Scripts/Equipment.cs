@@ -7,4 +7,6 @@ public class Equipment
     private string name;
     private int weight;
     private int value;
+
+
 }
