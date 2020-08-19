@@ -16,34 +16,23 @@ public class Character : MonoBehaviour
 
     [SerializeField] private int maxHitPoints;
     [SerializeField] private int armorClass;
+    [SerializeField] private Armor armor;
 
     private int currentSpeed;
     private int currentHitPoints;
     private int currentArmorClass;
 
-    public int CurrentSpeed
-    {
-        get { return currentSpeed; }
-    }
+    public int CurrentSpeed { get { return currentSpeed; } }
 
-    public bool isCrawling
-    {
-        get { return crawling; }
-    }
+    public bool isCrawling { get { return crawling; } }
 
-    public bool isFlying
-    {
-        get { return flying; }
-    }
+    public bool isFlying { get { return flying; } }
 
-    public int Team
-    {
-        get { return team; }
-    }
+    public int Team { get { return team; } }
 
     void Start()
     {        
-        RenewMovementSpeed();
+        RenewMovementSpeed();        
     }
     
     public void Move(Vector3Int newPosition, int cost)

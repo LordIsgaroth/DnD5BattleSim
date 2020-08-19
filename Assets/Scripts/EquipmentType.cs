@@ -28,4 +28,9 @@ public class EquipmentType
        
         return null;
     }
+
+    /*public static bool operator ==(EquipmentType type1, EquipmentType type2)
+    {
+        return type1.shortcut == type2.shortcut;
+    }*/
 }

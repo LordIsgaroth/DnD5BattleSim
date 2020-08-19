@@ -385,9 +385,10 @@ MonoBehaviour:
   team: 1
   speed: 30
   crawling: 0
-  flying: 1
-  maxHitPoints: 0
+  flying: 0
+  maxHitPoints: 50
   armorClass: 0
+  armor: {fileID: 11400000, guid: b8ad025f289873d439569073eaab46cc, type: 2}
 --- !u!1 &437667281
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +441,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13579,6 +13579,7 @@ MonoBehaviour:
   flying: 0
   maxHitPoints: 0
   armorClass: 0
+  armor: {fileID: 0}
 --- !u!1 &978042241
 GameObject:
   m_ObjectHideFlags: 0
@@ -13815,7 +13816,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14274,7 +14274,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8113208, g: 0.10332859, b: 0.10332859, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
