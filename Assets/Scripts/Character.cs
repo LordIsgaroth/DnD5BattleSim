@@ -23,22 +23,26 @@ public class Character : MonoBehaviour
     private int currentDexterity;
 
     [SerializeField] private int maxHitPoints;
-    [SerializeField] private int armorClass;
-
+    
     [SerializeField] private Armor armor;
 
+    //Вычисляемые параметры
     private int currentSpeed;
     private int currentMaxHitPoints;
     private int currentHitPoints;
+    private int armorClass;
 
     public int CurrentSpeed { get { return currentSpeed; } }
     public bool isCrawling { get { return crawling; } }
     public bool isFlying { get { return flying; } }
     public int Team { get { return team; } }
+    public int ArmorClass { get { return armorClass; } }
 
     void Start()
     {
-        RenewParameters();        
+        RenewParameters();
+        CalculateArmorClass();
+        Debug.Log(this.name + "'s AC = " + ArmorClass);
     }
     
     public void Move(Vector3Int newPosition, int cost)
@@ -66,5 +70,22 @@ public class Character : MonoBehaviour
     public void ChangeCurrentSpeedByCost(int cost)
     {
         currentSpeed -= cost;
+    }
+
+    private void CalculateArmorClass()
+    {
+        if (armor != null)
+        {
+            armorClass = armor.ArmorClass;
+        }
+        else
+        {
+            armorClass = 10 + GetAbilityModifier(currentDexterity);
+        }
+    }
+
+    private int GetAbilityModifier(int abilityValue)
+    {
+        return (abilityValue - 10) / 2;
     }
 }

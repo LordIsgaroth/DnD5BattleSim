@@ -386,8 +386,9 @@ MonoBehaviour:
   speed: 30
   crawling: 0
   flying: 0
+  strenght: 16
+  dexterity: 10
   maxHitPoints: 50
-  armorClass: 0
   armor: {fileID: 11400000, guid: b8ad025f289873d439569073eaab46cc, type: 2}
 --- !u!1 &437667281
 GameObject:
@@ -620,6 +621,21 @@ PrefabInstance:
         type: 3}
       propertyPath: team
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: strenght
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: dexterity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: maxHitPoints
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5a54eeb57d9e54a97dee6de21a69cf, type: 3}
@@ -13577,8 +13593,9 @@ MonoBehaviour:
   speed: 30
   crawling: 0
   flying: 0
-  maxHitPoints: 0
-  armorClass: 0
+  strenght: 8
+  dexterity: 16
+  maxHitPoints: 35
   armor: {fileID: 0}
 --- !u!1 &978042241
 GameObject:
@@ -13908,6 +13925,21 @@ PrefabInstance:
         type: 3}
       propertyPath: team
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: strenght
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: dexterity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: maxHitPoints
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5a54eeb57d9e54a97dee6de21a69cf, type: 3}
