@@ -25,7 +25,7 @@ public class EquipmentType
     {
         if (equipmentTypes.ContainsKey(shortcut))
             return equipmentTypes[shortcut];
-
+       
         return null;
     }
 }
