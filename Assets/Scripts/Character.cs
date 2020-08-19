@@ -25,6 +25,8 @@ public class Character : MonoBehaviour
     [SerializeField] private int maxHitPoints;
     
     [SerializeField] private Armor armor;
+    [SerializeField] private Weapon onMainHand;
+    [SerializeField] private Equipment onOffHand;
 
     //Вычисляемые параметры
     private int currentSpeed;

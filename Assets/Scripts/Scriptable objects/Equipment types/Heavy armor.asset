@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b3ac785f1fd9574eb51f8b5f53d597d, type: 3}
-  m_Name: Chainmail
+  m_Script: {fileID: 11500000, guid: 6852c2f3c815ef74b8b600db425e434b, type: 3}
+  m_Name: Heavy armor
   m_EditorClassIdentifier: 
-  weight: 55
-  value: 75
-  type: {fileID: 11400000, guid: f35d23e4fe4587b4eb05ed74219d48e7, type: 2}
-  armorClass: 16
+  shortcut: HA
