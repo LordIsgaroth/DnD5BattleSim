@@ -9,7 +9,10 @@ public class Character : MonoBehaviour
 
     //Скорость перемещения в футах (исходная)
     [SerializeField] private int speed;
-    
+
+    //Бонус мастерства
+    [SerializeField] private int masteryBonus;
+
     //Состояния, влияющие на передвижение
     [SerializeField] private bool crawling;
     [SerializeField] private bool flying;
@@ -39,12 +42,13 @@ public class Character : MonoBehaviour
     public bool isFlying { get { return flying; } }
     public int Team { get { return team; } }
     public int ArmorClass { get { return armorClass; } }
+    public int MasteryBonus { get { return masteryBonus; } }
 
     void Start()
     {
         RenewParameters();
         CalculateArmorClass();
-        Debug.Log(this.name + "'s AC = " + ArmorClass);
+        //Debug.Log(this.name + "'s AC = " + ArmorClass);
     }
     
     public void Move(Vector3Int newPosition, int cost)
@@ -89,5 +93,46 @@ public class Character : MonoBehaviour
     private int GetAbilityModifier(int abilityValue)
     {
         return (abilityValue - 10) / 2;
+    }
+
+    public void Attack()
+    {
+        int damage = 0;
+
+        //Для тестирования атаки будут всегда попадать
+        int targetArmorClass = 0;
+
+        int D20Roll = DiceSet.FindByName("1d20").Roll();        
+
+        if (onMainHand != null)
+        {
+            int strenghtModifier = GetAbilityModifier(currentStrenght);
+            int hitValue = D20Roll + masteryBonus + strenghtModifier;
+
+            Debug.Log("Hit value:" + hitValue);
+
+            if (hitValue >= targetArmorClass)
+            {
+                damage = onMainHand.DealDamage() + strenghtModifier;
+            }
+        }
+        else
+        {
+            //Совершение рукопашной атаки
+            int strenghtModifier = GetAbilityModifier(currentStrenght);
+            int hitValue = D20Roll + strenghtModifier;
+
+            Debug.Log("Hit value:" + hitValue);
+
+            if (hitValue >= targetArmorClass)
+            {
+                damage = 1 + strenghtModifier;
+            }                
+        }
+
+        //Урон не может быть меньше 1
+        if (damage < 1) damage = 1;
+
+        Debug.Log("Damage: " + damage);
     }
 }

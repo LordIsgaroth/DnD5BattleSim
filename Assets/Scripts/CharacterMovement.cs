@@ -37,7 +37,7 @@ public static class CharacterMovement
         //Расчет стоимости передвижения по доступным тайлам
         calculateNeighborCost(avalibleTiles, unavailibeTiles, position, position, character.CurrentSpeed, character, 0);
 
-        Debug.Log(counter);
+        //Debug.Log(counter);
 
         return avalibleTiles;
     }
