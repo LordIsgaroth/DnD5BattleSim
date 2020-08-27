@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private List<Character> allCharacters;
+    [SerializeField] private DiceSet d20;
+
+    public DiceSet D20 { get { return d20; } }
 
     void Start()
     {
@@ -18,6 +21,12 @@ public class GameController : MonoBehaviour
         {
             Character character = characterObject.GetComponent<Character>();
             allCharacters.Add(character);
+
+            //Для тестирования установим воину некоторую экипировку
+            if (characterObject.name == "Warrior")
+            {
+                character.onMainHand = new Weapon("Longsword", 3, 15, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d8"), DamageType.FindByShortcut("S"), 5);
+            }
         }
     }
         

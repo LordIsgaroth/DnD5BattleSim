@@ -26,10 +26,14 @@ public class Character : MonoBehaviour
     private int currentDexterity;
 
     [SerializeField] private int maxHitPoints;
-    
-    [SerializeField] private Armor armor;
+
+    //Для тестирования выставлен модификатор public. Далее вернуть private
+    public Armor armor;
+    public Weapon onMainHand;
+    public Equipment onOffHand;
+    /*[SerializeField] private Armor armor;
     [SerializeField] private Weapon onMainHand;
-    [SerializeField] private Equipment onOffHand;
+    [SerializeField] private Equipment onOffHand;*/
 
     //Вычисляемые параметры
     private int currentSpeed;
@@ -102,14 +106,17 @@ public class Character : MonoBehaviour
         //Для тестирования атаки будут всегда попадать
         int targetArmorClass = 0;
 
-        int D20Roll = DiceSet.FindByName("1d20").Roll();        
+        DiceSet D20 = DiceSet.GetDiceSet("1d20");
+
+        int D20Roll = 0;
+        if (D20 != null) D20Roll = D20.Roll();
 
         if (onMainHand != null)
         {
             int strenghtModifier = GetAbilityModifier(currentStrenght);
             int hitValue = D20Roll + masteryBonus + strenghtModifier;
 
-            Debug.Log("Hit value:" + hitValue);
+            Debug.Log("Hit value: " + hitValue);
 
             if (hitValue >= targetArmorClass)
             {
@@ -122,7 +129,7 @@ public class Character : MonoBehaviour
             int strenghtModifier = GetAbilityModifier(currentStrenght);
             int hitValue = D20Roll + strenghtModifier;
 
-            Debug.Log("Hit value:" + hitValue);
+            Debug.Log("Hit value: " + hitValue);
 
             if (hitValue >= targetArmorClass)
             {

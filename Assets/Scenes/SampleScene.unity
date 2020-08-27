@@ -468,8 +468,8 @@ MonoBehaviour:
   strenght: 16
   dexterity: 10
   maxHitPoints: 50
-  armor: {fileID: 11400000, guid: b8ad025f289873d439569073eaab46cc, type: 2}
-  onMainHand: {fileID: 11400000, guid: e095bd76e009d4f48a42239d5d883cf5, type: 2}
+  armor: {fileID: 0}
+  onMainHand: {fileID: 0}
   onOffHand: {fileID: 0}
 --- !u!1 &437667281
 GameObject:
@@ -14251,7 +14251,7 @@ GameObject:
   - component: {fileID: 1207060459}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

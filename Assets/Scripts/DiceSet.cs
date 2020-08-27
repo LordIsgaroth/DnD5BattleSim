@@ -1,23 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New dice set", menuName = "Dice set", order = 51)]
-public class DiceSet : ScriptableObject
+public class DiceSet
 {
     private static Dictionary<string, DiceSet> diceSets = new Dictionary<string, DiceSet>();
 
-    [SerializeField] int quantity;
-    [SerializeField] int type;
+    private string name;
+    private int quantity;
+    private int type;
 
-    void OnEnable()
+    public DiceSet(int quantity, int type)
     {
-        diceSets.Add(name, this);
-    }
+        name = quantity + "d" + type;
+        this.quantity = quantity;
+        this.type = type;
 
-    public DiceSet(int quantity, int value)
-    {
-        name = quantity + "d" + value;
         diceSets.Add(name, this);
     }
 
@@ -27,21 +26,60 @@ public class DiceSet : ScriptableObject
 
         for (int i = 1; i <= quantity; i++)
         {
-            result += Random.Range(1, type);
+            result += UnityEngine.Random.Range(1, type);
         }
 
         return result;
     }
 
-    public static DiceSet FindByName(string name)
+    public static DiceSet GetDiceSet(string name)
+    {
+        if (diceSets.ContainsKey(name))
+        {
+            return diceSets[name];
+        }
+        else
+        {
+            Tuple<int, int> numbersFromName = GetNumbersFromName(name);
+
+            if (numbersFromName == null)
+            {
+                return null;
+            }
+                       
+            return new DiceSet(numbersFromName.Item1, numbersFromName.Item2);
+        }        
+    }
+
+    private static Tuple<int, int> GetNumbersFromName(string name)
+    {
+        string[] parts = name.Split('d');
+
+        if (parts.Length != 2)
+            return null;
+
+        int quantity;
+        int type;
+
+        if(int.TryParse(parts[0], out quantity) && int.TryParse(parts[1], out type))
+        {
+            //Количество должно быть больше нуля, а значение должно быть равно числу граней одного из используемых в dnd кубов
+            if (quantity > 0 && (type == 4 || type == 6 || type == 8 || type == 10 || type == 12 || type == 20 || type == 100))
+            {
+                return new Tuple<int, int>(quantity, type);                
+            }
+        }
+
+        return null;
+    }
+
+    /*public static DiceSet FindByName(string name)
     {
         Debug.Log(name);
 
         if (diceSets.ContainsKey(name))
             return diceSets[name];
 
-        Debug.Log("!!");
-
         return null;
-    }
+    }*/
 }

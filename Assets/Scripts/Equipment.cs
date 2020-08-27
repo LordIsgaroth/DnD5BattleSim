@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
 
-public class Equipment : ScriptableObject
+public class Equipment
 {
-    [SerializeField] protected int weight;
-    [SerializeField] protected int value;
-    [SerializeField] protected EquipmentType type;
+    protected string name;
+    protected int weight;
+    protected int value;
+    protected EquipmentType type;
 
     public Equipment(string name, int weight, int value, EquipmentType type)
     {

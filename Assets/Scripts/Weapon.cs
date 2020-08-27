@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New weapon", menuName = "Weapon", order = 51)]
 public class Weapon : Equipment
 {
-    [SerializeField] DiceSet damage;
-    [SerializeField] int range;
+    private DiceSet damageDice;
+    private DamageType damageType;
+    private int range;
 
-    public Weapon(string name, int weight, int value, EquipmentType type, DiceSet damage, int range) : base(name, weight, value, type)
-    {        
+    public Weapon(string name, int weight, int value, EquipmentType type, DiceSet damageDice, DamageType damageType, int range) : base(name, weight, value, type)
+    {
+        this.damageDice = damageDice;
+        this.damageType = damageType;
+        this.range = range;
     }
 
     public int DealDamage()
     {
-        return damage.Roll();
+        return damageDice.Roll();
     }
 }

@@ -140,4 +140,7 @@ public static class CharacterMovement
     {
         return GameObject.Find(name);
     }
+
+    //Функция для определения области поражения - клеток и персонажей, которые попадают в радиус
+    //public AreaOfEffect 
 }

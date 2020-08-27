@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - demo1
   - Character
+  - GameManager
   layers:
   - Default
   - TransparentFX
