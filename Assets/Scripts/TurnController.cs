@@ -17,8 +17,11 @@ public class TurnController : MonoBehaviour
 
     private Character character;
 
+    private bool attackMode = false;
     private Vector3Int prevCoordinates;
-    private Hashtable avalibleTiles;
+    private Hashtable avalibleMovementTiles;
+    private Hashtable avalibleAttackTiles;
+
 
     void Start()
     {
@@ -40,13 +43,28 @@ public class TurnController : MonoBehaviour
     public void StartTurn()
     {
         character = currentCharacter.GetComponent<Character>();
-        avalibleTiles = CharacterMovement.GetAvalibleTiles(character);
-        ShowAvalibleTiles(avalibleTiles);
+        avalibleMovementTiles = CharacterMovement.GetAvalibleTiles(character);
+        ShowAvalibleTiles(avalibleMovementTiles);
     }
 
     public void PerformAttack()
     {
         character.Attack();
+    }
+
+    public void SwitchAttackMode()
+    {
+        if (attackMode)
+        {
+            attackMode = false;
+            avalibleMovementTiles = CharacterMovement.GetAvalibleTiles(character);
+            ShowAvalibleTiles(avalibleMovementTiles);
+        }
+        else
+        {
+            attackMode = true;
+            ClearAvalibleTiles(avalibleMovementTiles);
+        }    
     }
 
     void ShowSelectedTile(RaycastHit2D hit)
@@ -75,17 +93,17 @@ public class TurnController : MonoBehaviour
         Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
 
-        if(avalibleTiles.Contains(tilemapMousePos))
+        if(avalibleMovementTiles.Contains(tilemapMousePos))
         {
             character.Move(tilemapMousePos, 0);
-            character.ChangeCurrentSpeedByCost((int)avalibleTiles[tilemapMousePos]);
+            character.ChangeCurrentSpeedByCost((int)avalibleMovementTiles[tilemapMousePos]);
 
             Debug.Log("Character moved to: " + tilemapMousePos);
 
-            ClearAvalibleTiles(avalibleTiles);
+            ClearAvalibleTiles(avalibleMovementTiles);
 
-            avalibleTiles = CharacterMovement.GetAvalibleTiles(character);
-            ShowAvalibleTiles(avalibleTiles);
+            avalibleMovementTiles = CharacterMovement.GetAvalibleTiles(character);
+            ShowAvalibleTiles(avalibleMovementTiles);
         }       
     }
 
