@@ -391,6 +391,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -468,9 +469,6 @@ MonoBehaviour:
   strenght: 16
   dexterity: 10
   maxHitPoints: 50
-  armor: {fileID: 0}
-  onMainHand: {fileID: 0}
-  onOffHand: {fileID: 0}
 --- !u!1 &437667281
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,6 +521,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -714,7 +713,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1207060456}
-        m_MethodName: PerformAttack
+        m_MethodName: SwitchAttackMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -739,6 +738,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13807,9 +13807,6 @@ MonoBehaviour:
   strenght: 8
   dexterity: 16
   maxHitPoints: 35
-  armor: {fileID: 0}
-  onMainHand: {fileID: 0}
-  onOffHand: {fileID: 0}
 --- !u!1 &978042241
 GameObject:
   m_ObjectHideFlags: 0
@@ -14046,6 +14043,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14305,7 +14303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8470fbc5a31e8945a8499ee6dd321ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d20: {fileID: 0}
 --- !u!114 &1207060459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14520,6 +14517,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8113208, g: 0.10332859, b: 0.10332859, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
