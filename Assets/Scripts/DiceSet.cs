@@ -72,14 +72,4 @@ public class DiceSet
 
         return null;
     }
-
-    /*public static DiceSet FindByName(string name)
-    {
-        Debug.Log(name);
-
-        if (diceSets.ContainsKey(name))
-            return diceSets[name];
-
-        return null;
-    }*/
 }

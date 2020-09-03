@@ -391,7 +391,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -521,7 +520,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -738,7 +736,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14043,7 +14040,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14276,7 +14272,10 @@ MonoBehaviour:
     m_Bits: 256
   userInterface: {fileID: 23142656}
   tileSelected: {fileID: 11400000, guid: 6a40ad8bccd96c14899eb8ecc572e30a, type: 2}
-  tileAvalible: {fileID: 11400000, guid: eb68e2c30d413a84a923c73dc3229eec, type: 2}
+  tileAvalibleForMove: {fileID: 11400000, guid: eb68e2c30d413a84a923c73dc3229eec,
+    type: 2}
+  tileAffected: {fileID: 11400000, guid: 685a9c169b29f4743a1b30614b8d6d2c, type: 2}
+  tileTarget: {fileID: 11400000, guid: 6f6c953b09c36f64db4cd65378fbabc2, type: 2}
 --- !u!4 &1207060457
 Transform:
   m_ObjectHideFlags: 0
@@ -14517,7 +14516,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8113208, g: 0.10332859, b: 0.10332859, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

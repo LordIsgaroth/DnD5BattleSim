@@ -8,8 +8,8 @@ public static class Library
     {
         initializeEquipmentTypes();
         initializeDamageTypes();
-        Debug.Log(EquipmentType.FindByShortcut("HA").Name);
-        Debug.Log(DamageType.FindByShortcut("S").Name);
+        //Debug.Log(EquipmentType.FindByShortcut("HA").Name);
+        //Debug.Log(DamageType.FindByShortcut("S").Name);
         //Debug.Log(DiceSet.GetDiceSet("10d10"));
     }
 

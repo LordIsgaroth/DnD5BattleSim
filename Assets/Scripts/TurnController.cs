@@ -13,15 +13,16 @@ public class TurnController : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Canvas userInterface;
     [SerializeField] private Tile tileSelected;
-    [SerializeField] private Tile tileAvalible;
+    [SerializeField] private Tile tileAvalibleForMove;
+    [SerializeField] private Tile tileAffected;
+    [SerializeField] private Tile tileTarget;
 
     private Character character;
 
     private bool attackMode = false;
     private Vector3Int prevCoordinates;
     private Hashtable avalibleMovementTiles;
-    private Hashtable avalibleAttackTiles;
-
+    private AreaOfEffect attackArea;
 
     void Start()
     {
@@ -43,8 +44,8 @@ public class TurnController : MonoBehaviour
     public void StartTurn()
     {
         character = currentCharacter.GetComponent<Character>();
-        avalibleMovementTiles = CharacterMovement.GetAvalibleTiles(character);
-        ShowAvalibleTiles(avalibleMovementTiles);
+        avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
+        ShowAvalibleMovementTiles(avalibleMovementTiles);
     }
 
     public void PerformAttack()
@@ -57,13 +58,18 @@ public class TurnController : MonoBehaviour
         if (attackMode)
         {
             attackMode = false;
-            avalibleMovementTiles = CharacterMovement.GetAvalibleTiles(character);
-            ShowAvalibleTiles(avalibleMovementTiles);
+            avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
+            ClearTiles(attackArea.Tiles);
+            clearTilesAtCharacterPositions(attackArea.Characters);
+            ShowAvalibleMovementTiles(avalibleMovementTiles);
         }
         else
         {
             attackMode = true;
-            ClearAvalibleTiles(avalibleMovementTiles);
+            ClearAvalibleMovementTiles(avalibleMovementTiles);
+            attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(character.transform.position), 5);
+            ShowTiles(attackArea.Tiles, tileAffected);
+            ShowTilesAtCharacterPositions(attackArea.Characters, tileTarget);
         }    
     }
 
@@ -100,22 +106,46 @@ public class TurnController : MonoBehaviour
 
             Debug.Log("Character moved to: " + tilemapMousePos);
 
-            ClearAvalibleTiles(avalibleMovementTiles);
+            ClearAvalibleMovementTiles(avalibleMovementTiles);
 
-            avalibleMovementTiles = CharacterMovement.GetAvalibleTiles(character);
-            ShowAvalibleTiles(avalibleMovementTiles);
+            avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
+            ShowAvalibleMovementTiles(avalibleMovementTiles);
         }       
     }
 
-    void ShowAvalibleTiles(Hashtable avalibleTiles)
+    void ShowAvalibleMovementTiles(Hashtable avalibleTiles)
     {
         foreach (Vector3Int position in avalibleTiles.Keys)
         {
-            UILayer.SetTile(position, tileAvalible);
+            UILayer.SetTile(position, tileAvalibleForMove);
         }        
     }
 
-    void ClearAvalibleTiles(Hashtable avalibleTiles)
+    void ShowTiles(HashSet<Vector3Int> setOfTiles, Tile TileType)
+    {
+        foreach (Vector3Int position in setOfTiles)
+        {
+            UILayer.SetTile(position, TileType);
+        }
+    }
+
+    void ShowTilesAtCharacterPositions(List<Character> characters, Tile TileType)
+    {
+        foreach (Character character in characters)
+        {
+            UILayer.SetTile(Vector3Int.FloorToInt(character.transform.position), TileType);
+        }
+    }
+
+    void ClearTiles(HashSet<Vector3Int> setOfTiles)
+    {
+        foreach (Vector3Int position in setOfTiles)
+        {
+            UILayer.SetTile(position, null);
+        }
+    }
+
+    void ClearAvalibleMovementTiles(Hashtable avalibleTiles)
     {
         foreach (Vector3Int position in avalibleTiles.Keys)
         {
@@ -123,5 +153,13 @@ public class TurnController : MonoBehaviour
         }
 
         avalibleTiles.Clear();
+    }
+
+    void clearTilesAtCharacterPositions(List<Character> characters)
+    {
+        foreach (Character character in characters)
+        {
+            UILayer.SetTile(Vector3Int.FloorToInt(character.transform.position), null);
+        }
     }
 }
