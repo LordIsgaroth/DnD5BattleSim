@@ -40,6 +40,7 @@ public class Character : MonoBehaviour
     private int currentMaxHitPoints;
     private int currentHitPoints;
     private int armorClass;
+    private int attackRange;
 
     public int CurrentSpeed { get { return currentSpeed; } }
     public bool isCrawling { get { return crawling; } }
@@ -47,11 +48,13 @@ public class Character : MonoBehaviour
     public int Team { get { return team; } }
     public int ArmorClass { get { return armorClass; } }
     public int MasteryBonus { get { return masteryBonus; } }
+    public int AttackRange { get { return attackRange; } }
 
     void Start()
     {
         RenewParameters();
         CalculateArmorClass();
+        DefineAttackRange();
         //Debug.Log(this.name + "'s AC = " + ArmorClass);
     }
     
@@ -94,17 +97,27 @@ public class Character : MonoBehaviour
         }
     }
 
+    private void DefineAttackRange()
+    {
+        if(onMainHand != null)
+        {
+            attackRange = onMainHand.Range;
+        }
+        else
+        {
+            attackRange = 5;
+        }
+    }
+
     private int GetAbilityModifier(int abilityValue)
     {
         return (abilityValue - 10) / 2;
     }
 
-    public void Attack()
+    public Attack PerformAttack(int targetArmorClass)
     {
         int damage = 0;
-
-        //Для тестирования атаки будут всегда попадать
-        int targetArmorClass = 0;
+        DamageType type = DamageType.FindByShortcut("B");
 
         DiceSet D20 = DiceSet.GetDiceSet("1d20");
 
@@ -121,6 +134,11 @@ public class Character : MonoBehaviour
             if (hitValue >= targetArmorClass)
             {
                 damage = onMainHand.DealDamage() + strenghtModifier;
+                type = onMainHand.DamageType;               
+            }
+            else
+            {
+                return new Attack(false);
             }
         }
         else
@@ -134,12 +152,26 @@ public class Character : MonoBehaviour
             if (hitValue >= targetArmorClass)
             {
                 damage = 1 + strenghtModifier;
-            }                
+            }
+            else
+            {
+                return new Attack(false);
+            }
         }
 
         //Урон не может быть меньше 1
         if (damage < 1) damage = 1;
 
         Debug.Log("Damage: " + damage);
+
+        return new Attack(true, damage, type);
+    }
+
+    public void TakeDamage(Attack attack)
+    {
+        //В будущем здесь должна быть проверка на сопротивляемость/неуязвимость к типам урона
+
+        currentHitPoints -= attack.DamageValue;
+        Debug.Log(gameObject.name + " current HP is " + currentHitPoints);
     }
 }

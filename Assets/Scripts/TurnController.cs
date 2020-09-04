@@ -37,7 +37,8 @@ public class TurnController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            MoveCharacter(hit);
+            if (attackMode) { PerformAttack(hit); }
+            else { MoveCharacter(hit); }
         }
     }
 
@@ -45,13 +46,15 @@ public class TurnController : MonoBehaviour
     {
         character = currentCharacter.GetComponent<Character>();
         avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
-        ShowAvalibleMovementTiles(avalibleMovementTiles);
-    }
 
-    public void PerformAttack()
-    {
-        character.Attack();
-    }
+        if(attackArea != null)
+        {
+            ClearTiles(attackArea.AffectedTiles);
+            ClearTilesFromHashtable(attackArea.AffectedCharacters);
+        }
+        
+        ShowAvalibleMovementTiles(avalibleMovementTiles);
+    }    
 
     public void SwitchAttackMode()
     {
@@ -59,17 +62,17 @@ public class TurnController : MonoBehaviour
         {
             attackMode = false;
             avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
-            ClearTiles(attackArea.Tiles);
-            clearTilesAtCharacterPositions(attackArea.Characters);
+            ClearTiles(attackArea.AffectedTiles);
+            ClearTilesFromHashtable(attackArea.AffectedCharacters);
             ShowAvalibleMovementTiles(avalibleMovementTiles);
         }
         else
         {
             attackMode = true;
             ClearAvalibleMovementTiles(avalibleMovementTiles);
-            attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(character.transform.position), 5);
-            ShowTiles(attackArea.Tiles, tileAffected);
-            ShowTilesAtCharacterPositions(attackArea.Characters, tileTarget);
+            attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(character.transform.position), character.AttackRange, character.Team);
+            ShowTiles(attackArea.AffectedTiles, tileAffected);
+            ShowTilesAtCharacterPositions(attackArea.AffectedCharacters, tileTarget);
         }    
     }
 
@@ -113,6 +116,23 @@ public class TurnController : MonoBehaviour
         }       
     }
 
+    private void PerformAttack(RaycastHit2D hit)
+    {
+        Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
+
+        if (attackArea.AffectedCharacters.Contains(tilemapMousePos))
+        {
+            Character targetCharacter = (Character)attackArea.AffectedCharacters[tilemapMousePos];
+            Attack attack = character.PerformAttack(targetCharacter.ArmorClass);
+
+            if (attack.Successfull)
+            {
+                targetCharacter.TakeDamage(attack);
+            }
+        }       
+    }
+
     void ShowAvalibleMovementTiles(Hashtable avalibleTiles)
     {
         foreach (Vector3Int position in avalibleTiles.Keys)
@@ -121,25 +141,33 @@ public class TurnController : MonoBehaviour
         }        
     }
 
-    void ShowTiles(HashSet<Vector3Int> setOfTiles, Tile TileType)
+    void ShowTiles(HashSet<Vector3Int> setOfTiles, Tile tileType)
     {
         foreach (Vector3Int position in setOfTiles)
         {
-            UILayer.SetTile(position, TileType);
+            UILayer.SetTile(position, tileType);
         }
     }
 
-    void ShowTilesAtCharacterPositions(List<Character> characters, Tile TileType)
+    void ShowTilesAtCharacterPositions(Hashtable characters, Tile tileType)
     {
-        foreach (Character character in characters)
+        foreach (Vector3Int position in characters.Keys)
         {
-            UILayer.SetTile(Vector3Int.FloorToInt(character.transform.position), TileType);
+            UILayer.SetTile(position, tileType);
         }
     }
 
     void ClearTiles(HashSet<Vector3Int> setOfTiles)
     {
         foreach (Vector3Int position in setOfTiles)
+        {
+            UILayer.SetTile(position, null);
+        }
+    }
+
+    void ClearTilesFromHashtable(Hashtable tiles)
+    {
+        foreach (Vector3Int position in tiles.Keys)
         {
             UILayer.SetTile(position, null);
         }

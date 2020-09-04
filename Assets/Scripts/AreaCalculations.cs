@@ -142,18 +142,18 @@ public static class AreaCalculations
     }
 
     //Функция для определения области поражения - клеток и персонажей, которые попадают в область действия (На данный момент - только сфера)
-    public static AreaOfEffect GetAreaOfEffect(Vector3Int source, int range)
+    public static AreaOfEffect GetAreaOfEffect(Vector3Int source, int range, int team)
     {
         HashSet<Vector3Int> affectedTiles = new HashSet<Vector3Int>();
         HashSet<Vector3Int> unavailibeTiles = new HashSet<Vector3Int>();
-        List<Character> characters = new List<Character>();
+        Hashtable affectedCharacters = new Hashtable();
 
-        FindTilesInRange(affectedTiles, unavailibeTiles, characters, source, range, 0);
+        FindTilesInRange(affectedTiles, unavailibeTiles, affectedCharacters, team, source, range, 0);
 
-        return new AreaOfEffect(affectedTiles, characters);
+        return new AreaOfEffect(affectedTiles, affectedCharacters);
     }
 
-    private static void FindTilesInRange(HashSet<Vector3Int> affectedTiles, HashSet<Vector3Int> unavailibeTiles, List<Character> characters, Vector3Int currentPosition, int totalRange, int currentRange)
+    private static void FindTilesInRange(HashSet<Vector3Int> affectedTiles, HashSet<Vector3Int> unavailibeTiles, Hashtable characters, int team, Vector3Int currentPosition, int totalRange, int currentRange)
     {
         for (int x = -1; x <= 1; x++)
         {
@@ -172,50 +172,29 @@ public static class AreaCalculations
                     {
                         unavailibeTiles.Add(neighbor);
                         continue;
-                    }
-
-                    Character characterAtPosition = gameController.CharacterAtPosition(neighbor);
-                    bool friendlyCharacterAtPosition = false;
-
-                    if (characterAtPosition)
-                    {
-                        unavailibeTiles.Add(neighbor);
-                        characters.Add(characterAtPosition);
-                    }
-                    /*{
-                        unavailibeTiles.Add(neighbor);
-
-                        if (characterAtPosition.Team == character.Team)
-                        {
-                            friendlyCharacterAtPosition = true;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }*/
+                    }                                       
 
                     int neighborRange = currentRange + tileCost;
 
                     if (neighborRange <= totalRange)
                     {
-                        if (!affectedTiles.Contains(neighbor))
+                        Character characterAtPosition = gameController.CharacterAtPosition(neighbor);
+
+                        if (characterAtPosition)
+                        {
+                            unavailibeTiles.Add(neighbor);
+                            if (characterAtPosition.Team != team)
+                            {
+                                characters.Add(neighbor, characterAtPosition);
+                            }                            
+                        }
+                        else if (!affectedTiles.Contains(neighbor))
                         {
                             affectedTiles.Add(neighbor);
-                            /*if (!friendlyCharacterAtPosition)
-                                avalibleTiles.Add(neighbor, currentTotalCost);
-                        }
-                        else if ((int)avalibleTiles[neighbor] > currentTotalCost)
-                        {
-                            if (!friendlyCharacterAtPosition)
-                                avalibleTiles[neighbor] = currentTotalCost;*/
-                        }
-                        /*else
-                        {
-                            continue;
-                        }*/
+                     
+                        }                     
 
-                        FindTilesInRange(affectedTiles, unavailibeTiles, characters, neighbor, totalRange, neighborRange);
+                        FindTilesInRange(affectedTiles, unavailibeTiles, characters, team, neighbor, totalRange, neighborRange);
                     }                    
                 }
             }

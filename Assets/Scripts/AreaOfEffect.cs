@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class AreaOfEffect
 {
-    private HashSet<Vector3Int> tiles = new HashSet<Vector3Int>();
-    private List<Character> characters = new List<Character>();
+    private readonly HashSet<Vector3Int> affectedTiles = new HashSet<Vector3Int>();
+    private readonly Hashtable affectedCharacters = new Hashtable();
 
-    public AreaOfEffect(HashSet<Vector3Int> tiles, List<Character> characters)
+    public AreaOfEffect(HashSet<Vector3Int> tiles, Hashtable characters)
     {
-        this.tiles = tiles;
-        this.characters = characters;
+        this.affectedTiles = tiles;
+        this.affectedCharacters = characters;
     }
 
-    public HashSet<Vector3Int> Tiles { get { return tiles; } }
-    public List<Character> Characters { get { return characters; } }
+    public HashSet<Vector3Int> AffectedTiles { get { return affectedTiles; } }
+    public Hashtable AffectedCharacters { get { return affectedCharacters; } }
 }

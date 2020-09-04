@@ -19,4 +19,7 @@ public class Weapon : Equipment
     {
         return damageDice.Roll();
     }
+
+    public int Range { get { return range; } }
+    public DamageType DamageType { get { return damageType; } }
 }
