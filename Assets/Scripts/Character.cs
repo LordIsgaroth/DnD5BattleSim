@@ -183,6 +183,11 @@ public class Character : MonoBehaviour
         //В будущем здесь должен рассчитываться модификатор инициативы, например от черты или особенности класса
         int initiativeModifier = 0;
 
-        initiative = 10 + GetAbilityModifier(currentDexterity) + initiativeModifier;
+        //Бросок d20 на инициативу
+        DiceSet D20 = DiceSet.GetDiceSet("1d20");
+        int D20Roll = 0;
+        if (D20 != null) D20Roll = D20.Roll();
+
+        initiative = D20Roll + GetAbilityModifier(currentDexterity) + initiativeModifier;
     }
 }

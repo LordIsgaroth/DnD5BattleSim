@@ -23,7 +23,8 @@ public class GameController : MonoBehaviour
         foreach(GameObject characterObject in allCharacterObjects)
         {
             Character character = characterObject.GetComponent<Character>();
-  
+
+            allCharacters.Add(character);
             addCharacterToInitiativeTracker(character);
 
             //Для тестирования установим воину некоторую экипировку
@@ -41,14 +42,14 @@ public class GameController : MonoBehaviour
 
         currentRound = 1;
 
-        //initiativeTracker.
+        Debug.Log("Round " + currentRound);
     }
         
-    public void NewRound()
+    private void NewRound()
     {
-        foreach(Character caracter in allCharacters)
+        foreach(Character character in allCharacters)
         {
-            caracter.RenewMovementSpeed();
+            character.RenewMovementSpeed();
         }
     }
 
@@ -87,5 +88,34 @@ public class GameController : MonoBehaviour
 
         //Если у всех прочих персонажей инициатива выше (или новый персонаж первый), новый персонаж добавляется в конец списка
         initiativeTracker.AddLast(newCharacter);
+    }
+
+    //Получает персонажа, который должен ходить следующим
+    public Character GetNextCharacter(Character currentCharacter)
+    {
+        //Текущего персонажа нет - первый ход в партии. Вернуть первого в списке инициативы
+        if (currentCharacter == null)
+        {
+            Debug.Log(initiativeTracker.First.Value);
+            return initiativeTracker.First.Value;
+        }
+
+        LinkedListNode<Character> currentNode = initiativeTracker.Find(currentCharacter);
+
+        //Если есть следующий в списке - вернуть его
+        if(currentNode.Next != null)
+        {
+            Debug.Log(currentNode.Next.Value);
+            return currentNode.Next.Value;
+        }
+        //Если нет - начинается следующий раунд. Вернуть первого в списке инициативы
+        else
+        {
+            currentRound++;
+            NewRound();
+            Debug.Log("Round " + currentRound);
+            Debug.Log(initiativeTracker.First.Value);
+            return initiativeTracker.First.Value;
+        }        
     }
 }

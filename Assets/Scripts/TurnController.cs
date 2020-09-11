@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class TurnController : MonoBehaviour
 {
-    [SerializeField] private GameObject currentCharacter;
+    //[SerializeField] private Character currentCharacter;    
     [SerializeField] private Grid grid;
     [SerializeField] private Tilemap UILayer;
     [SerializeField] private Tilemap CursorLayer;
@@ -17,7 +17,9 @@ public class TurnController : MonoBehaviour
     [SerializeField] private Tile tileAffected;
     [SerializeField] private Tile tileTarget;
 
-    private Character character;
+    private GameController gameController;
+    private Character currentCharacter = null;
+    //private Character character;
 
     private bool attackMode = false;
     private Vector3Int prevCoordinates;
@@ -26,6 +28,8 @@ public class TurnController : MonoBehaviour
 
     void Start()
     {
+        gameController = GameObject.Find("GameManager").GetComponent<GameController>();
+
         StartTurn();
     }
 
@@ -44,15 +48,13 @@ public class TurnController : MonoBehaviour
 
     public void StartTurn()
     {
-        character = currentCharacter.GetComponent<Character>();
-        avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
+        clearAllTiles();
 
-        if(attackArea != null)
-        {
-            ClearTiles(attackArea.AffectedTiles);
-            ClearTilesFromHashtable(attackArea.AffectedCharacters);
-        }
-        
+        currentCharacter = gameController.GetNextCharacter(currentCharacter);
+
+        attackMode = false;
+
+        avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
         ShowAvalibleMovementTiles(avalibleMovementTiles);
     }    
 
@@ -61,7 +63,7 @@ public class TurnController : MonoBehaviour
         if (attackMode)
         {
             attackMode = false;
-            avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
+            avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
             ClearTiles(attackArea.AffectedTiles);
             ClearTilesFromHashtable(attackArea.AffectedCharacters);
             ShowAvalibleMovementTiles(avalibleMovementTiles);
@@ -70,7 +72,7 @@ public class TurnController : MonoBehaviour
         {
             attackMode = true;
             ClearAvalibleMovementTiles(avalibleMovementTiles);
-            attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(character.transform.position), character.AttackRange, character.Team);
+            attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(currentCharacter.transform.position), currentCharacter.AttackRange, currentCharacter.Team);
             ShowTiles(attackArea.AffectedTiles, tileAffected);
             ShowTilesAtCharacterPositions(attackArea.AffectedCharacters, tileTarget);
         }    
@@ -104,14 +106,14 @@ public class TurnController : MonoBehaviour
 
         if(avalibleMovementTiles.Contains(tilemapMousePos))
         {
-            character.Move(tilemapMousePos, 0);
-            character.ChangeCurrentSpeedByCost((int)avalibleMovementTiles[tilemapMousePos]);
+            currentCharacter.Move(tilemapMousePos, 0);
+            currentCharacter.ChangeCurrentSpeedByCost((int)avalibleMovementTiles[tilemapMousePos]);
 
-            Debug.Log("Character moved to: " + tilemapMousePos);
+            Debug.Log(currentCharacter.name + " moved to: " + tilemapMousePos);
 
             ClearAvalibleMovementTiles(avalibleMovementTiles);
 
-            avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(character);
+            avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
             ShowAvalibleMovementTiles(avalibleMovementTiles);
         }       
     }
@@ -124,7 +126,7 @@ public class TurnController : MonoBehaviour
         if (attackArea.AffectedCharacters.Contains(tilemapMousePos))
         {
             Character targetCharacter = (Character)attackArea.AffectedCharacters[tilemapMousePos];
-            Attack attack = character.PerformAttack(targetCharacter.ArmorClass);
+            Attack attack = currentCharacter.PerformAttack(targetCharacter.ArmorClass);
 
             if (attack.Successfull)
             {
@@ -189,5 +191,19 @@ public class TurnController : MonoBehaviour
         {
             UILayer.SetTile(Vector3Int.FloorToInt(character.transform.position), null);
         }
+    }
+
+    void clearAllTiles()
+    {
+        if(avalibleMovementTiles != null)
+        {
+            ClearAvalibleMovementTiles(avalibleMovementTiles);
+        }
+        
+        if (attackArea != null)
+        {
+            ClearTiles(attackArea.AffectedTiles);
+            ClearTilesFromHashtable(attackArea.AffectedCharacters);
+        }            
     }
 }
