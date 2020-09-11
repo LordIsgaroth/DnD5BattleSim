@@ -41,6 +41,7 @@ public class Character : MonoBehaviour
     private int currentHitPoints;
     private int armorClass;
     private int attackRange;
+    private int initiative;
 
     public int CurrentSpeed { get { return currentSpeed; } }
     public bool isCrawling { get { return crawling; } }
@@ -49,11 +50,13 @@ public class Character : MonoBehaviour
     public int ArmorClass { get { return armorClass; } }
     public int MasteryBonus { get { return masteryBonus; } }
     public int AttackRange { get { return attackRange; } }
+    public int Initiative { get { return initiative; } }
 
     void Start()
     {
         RenewParameters();
         CalculateArmorClass();
+        CalculateInitiative();
         DefineAttackRange();
         //Debug.Log(this.name + "'s AC = " + ArmorClass);
     }
@@ -173,5 +176,13 @@ public class Character : MonoBehaviour
 
         currentHitPoints -= attack.DamageValue;
         Debug.Log(gameObject.name + " current HP is " + currentHitPoints);
+    }
+
+    private void CalculateInitiative()
+    {
+        //В будущем здесь должен рассчитываться модификатор инициативы, например от черты или особенности класса
+        int initiativeModifier = 0;
+
+        initiative = 10 + GetAbilityModifier(currentDexterity) + initiativeModifier;
     }
 }
