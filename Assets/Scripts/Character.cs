@@ -36,6 +36,7 @@ public class Character : MonoBehaviour
     [SerializeField] private Equipment onOffHand;*/
 
     //Вычисляемые параметры
+    private bool actionAvailable;
     private int currentSpeed;
     private int currentMaxHitPoints;
     private int currentHitPoints;
@@ -43,6 +44,7 @@ public class Character : MonoBehaviour
     private int attackRange;
     private int initiative;
 
+    public bool ActionAvailable { get { return actionAvailable; } }
     public int CurrentSpeed { get { return currentSpeed; } }
     public bool isCrawling { get { return crawling; } }
     public bool isFlying { get { return flying; } }
@@ -54,7 +56,7 @@ public class Character : MonoBehaviour
 
     void Start()
     {
-        RenewParameters();
+        InitializeParameters();
         CalculateArmorClass();
         CalculateInitiative();
         DefineAttackRange();
@@ -67,7 +69,7 @@ public class Character : MonoBehaviour
         transform.position = newPosition;
     }
 
-    private void RenewParameters()
+    private void InitializeParameters()
     {
         currentStrenght = strenght;
         currentDexterity = dexterity;
@@ -75,12 +77,13 @@ public class Character : MonoBehaviour
         currentMaxHitPoints = maxHitPoints;
         currentHitPoints = currentMaxHitPoints;
 
-        RenewMovementSpeed();
+        RenewParameters();
     }
 
-    public void RenewMovementSpeed()
+    public void RenewParameters()
     {
         currentSpeed = speed;
+        actionAvailable = true;
     }
 
     public void ChangeCurrentSpeedByCost(int cost)
@@ -119,6 +122,9 @@ public class Character : MonoBehaviour
 
     public Attack PerformAttack(int targetArmorClass)
     {
+        //Отметим, что действие в этот ход уже совершалось
+        actionAvailable = false;
+
         int damage = 0;
         DamageType type = DamageType.FindByShortcut("B");
 

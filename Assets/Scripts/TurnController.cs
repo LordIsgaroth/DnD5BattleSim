@@ -72,9 +72,13 @@ public class TurnController : MonoBehaviour
         {
             attackMode = true;
             ClearAvalibleMovementTiles(avalibleMovementTiles);
-            attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(currentCharacter.transform.position), currentCharacter.AttackRange, currentCharacter.Team);
-            ShowTiles(attackArea.AffectedTiles, tileAffected);
-            ShowTilesAtCharacterPositions(attackArea.AffectedCharacters, tileTarget);
+
+            if (currentCharacter.ActionAvailable)
+            {
+                attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(currentCharacter.transform.position), currentCharacter.AttackRange, currentCharacter.Team);
+                ShowTiles(attackArea.AffectedTiles, tileAffected);
+                ShowTilesAtCharacterPositions(attackArea.AffectedCharacters, tileTarget);
+            }            
         }    
     }
 
@@ -132,7 +136,10 @@ public class TurnController : MonoBehaviour
             {
                 targetCharacter.TakeDamage(attack);
             }
-        }       
+        }
+
+        ClearTiles(attackArea.AffectedTiles);
+        ClearTilesFromHashtable(attackArea.AffectedCharacters);
     }
 
     void ShowAvalibleMovementTiles(Hashtable avalibleTiles)

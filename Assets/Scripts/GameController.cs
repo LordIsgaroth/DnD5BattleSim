@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
     {
         foreach(Character character in allCharacters)
         {
-            character.RenewMovementSpeed();
+            character.RenewParameters();
         }
     }
 
