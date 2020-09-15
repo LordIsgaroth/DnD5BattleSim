@@ -37,6 +37,7 @@ public class Character : MonoBehaviour
 
     //Вычисляемые параметры
     private bool actionAvailable;
+    private bool capacitated;
     private int currentSpeed;
     private int currentMaxHitPoints;
     private int currentHitPoints;
@@ -45,6 +46,7 @@ public class Character : MonoBehaviour
     private int initiative;
 
     public bool ActionAvailable { get { return actionAvailable; } }
+    public bool Capacitated { get { return capacitated; } }
     public int CurrentSpeed { get { return currentSpeed; } }
     public bool isCrawling { get { return crawling; } }
     public bool isFlying { get { return flying; } }
