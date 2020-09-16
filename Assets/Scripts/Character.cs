@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
 
     //Вычисляемые параметры
     private bool actionAvailable;
-    private bool capacitated;
+    private bool conscious;
     private int currentSpeed;
     private int currentMaxHitPoints;
     private int currentHitPoints;
@@ -46,7 +46,7 @@ public class Character : MonoBehaviour
     private int initiative;
 
     public bool ActionAvailable { get { return actionAvailable; } }
-    public bool Capacitated { get { return capacitated; } }
+    public bool Conscious { get { return conscious; } }
     public int CurrentSpeed { get { return currentSpeed; } }
     public bool isCrawling { get { return crawling; } }
     public bool isFlying { get { return flying; } }
@@ -73,6 +73,8 @@ public class Character : MonoBehaviour
 
     private void InitializeParameters()
     {
+        conscious = true;
+
         currentStrenght = strenght;
         currentDexterity = dexterity;
 
@@ -184,6 +186,17 @@ public class Character : MonoBehaviour
 
         currentHitPoints -= attack.DamageValue;
         Debug.Log(gameObject.name + " current HP is " + currentHitPoints);
+
+        if (currentHitPoints <= 0)
+        {
+            SetUnconsious();
+        }
+    }
+
+    private void SetUnconsious()
+    {
+        conscious = false;
+        this.transform.Rotate(0, 0, -90);
     }
 
     private void CalculateInitiative()

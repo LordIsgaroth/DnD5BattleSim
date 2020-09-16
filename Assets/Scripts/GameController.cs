@@ -69,7 +69,7 @@ public class GameController : MonoBehaviour
     }
 
     private void addCharacterToInitiativeTracker(Character newCharacter)
-    {          
+    {        
         foreach (Character character in initiativeTracker)
         {
             //В случае превосходящей инициативы персонаж добавляется выше текущего
@@ -93,6 +93,8 @@ public class GameController : MonoBehaviour
     //Получает персонажа, который должен ходить следующим
     public Character GetNextCharacter(Character currentCharacter)
     {
+        Character nextCharacter;
+
         //Текущего персонажа нет - первый ход в партии. Вернуть первого в списке инициативы
         if (currentCharacter == null)
         {
@@ -106,7 +108,7 @@ public class GameController : MonoBehaviour
         if(currentNode.Next != null)
         {
             Debug.Log(currentNode.Next.Value);
-            return currentNode.Next.Value;
+            nextCharacter = currentNode.Next.Value;
         }
         //Если нет - начинается следующий раунд. Вернуть первого в списке инициативы
         else
@@ -115,7 +117,16 @@ public class GameController : MonoBehaviour
             NewRound();
             Debug.Log("Round " + currentRound);
             Debug.Log(initiativeTracker.First.Value);
-            return initiativeTracker.First.Value;
-        }        
+            nextCharacter = initiativeTracker.First.Value;
+        }
+
+        //Если следующий персонаж без сознания - вернуть следующего за ним
+        if (!nextCharacter.Conscious)
+        {
+            Debug.Log(nextCharacter);
+            nextCharacter = GetNextCharacter(nextCharacter);
+        }
+
+        return nextCharacter;
     }
 }
