@@ -64,8 +64,13 @@ public class TurnController : MonoBehaviour
         {
             attackMode = false;
             avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
-            ClearTiles(attackArea.AffectedTiles);
-            ClearTilesFromHashtable(attackArea.AffectedCharacters);
+
+            if (attackArea != null)
+            {
+                ClearTiles(attackArea.AffectedTiles);
+                ClearTilesFromHashtable(attackArea.AffectedCharacters);
+            }
+            
             ShowAvalibleMovementTiles(avalibleMovementTiles);
         }
         else
@@ -124,6 +129,8 @@ public class TurnController : MonoBehaviour
 
     private void PerformAttack(RaycastHit2D hit)
     {
+        if (attackArea == null) return;
+
         Vector3 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int tilemapMousePos = UILayer.WorldToCell(mouseWorldPos);
 
@@ -136,10 +143,12 @@ public class TurnController : MonoBehaviour
             {
                 targetCharacter.TakeDamage(attack);
             }
-        }
 
-        ClearTiles(attackArea.AffectedTiles);
-        ClearTilesFromHashtable(attackArea.AffectedCharacters);
+            ClearTiles(attackArea.AffectedTiles);
+            ClearTilesFromHashtable(attackArea.AffectedCharacters);
+
+            attackArea = null;
+        }
     }
 
     void ShowAvalibleMovementTiles(Hashtable avalibleTiles)

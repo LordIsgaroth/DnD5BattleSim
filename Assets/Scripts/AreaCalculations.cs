@@ -64,15 +64,15 @@ public static class AreaCalculations
                     }
 
                     Character characterAtPosition = gameController.CharacterAtPosition(neighbor);
-                    bool friendlyCharacterAtPosition = false;
+                    bool movingThroughCharacter = false;
 
                     if (characterAtPosition)
                     {
                         unavailibeTiles.Add(neighbor);
 
-                        if(characterAtPosition.Team == character.Team)
+                        if(characterAtPosition.Team == character.Team || !characterAtPosition.Conscious)
                         {
-                            friendlyCharacterAtPosition = true;
+                            movingThroughCharacter = true;
                         }
                         else
                         {
@@ -91,7 +91,7 @@ public static class AreaCalculations
                             currentMultiplier++;
                         }
 
-                        if (TilemapContainsPosition(difficultTerrain, neighbor) | friendlyCharacterAtPosition)
+                        if (TilemapContainsPosition(difficultTerrain, neighbor) | movingThroughCharacter)
                         {
                             currentMultiplier++;
                         }
@@ -104,12 +104,12 @@ public static class AreaCalculations
                     {
                         if (!avalibleTiles.Contains(neighbor))
                         {
-                            if(!friendlyCharacterAtPosition)
+                            if(!movingThroughCharacter)
                                 avalibleTiles.Add(neighbor, currentTotalCost);                            
                         }
                         else if ((int)avalibleTiles[neighbor] > currentTotalCost)
                         {
-                            if (!friendlyCharacterAtPosition)
+                            if (!movingThroughCharacter)
                                 avalibleTiles[neighbor] = currentTotalCost;
                         }
                         else
@@ -183,7 +183,7 @@ public static class AreaCalculations
                         if (characterAtPosition)
                         {
                             unavailibeTiles.Add(neighbor);
-                            if (characterAtPosition.Team != team)
+                            if (characterAtPosition.Team != team && characterAtPosition.Conscious)
                             {
                                 characters.Add(neighbor, characterAtPosition);
                             }                            

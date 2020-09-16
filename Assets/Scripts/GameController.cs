@@ -31,7 +31,12 @@ public class GameController : MonoBehaviour
             if (characterObject.name == "Warrior")
             {
                 character.onMainHand = new Weapon("Longsword", 3, 15, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d8"), DamageType.FindByShortcut("S"), 5);
-            }           
+            }
+            //Если зомби - установим оружие "когти зомби"
+            else if (characterObject.name.Contains("Zombie"))
+            {
+                character.onMainHand = new Weapon("Zombie's claws", 0, 0, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d6"), DamageType.FindByShortcut("B"), 5);
+            }
         }
 
         //Для тестирования выведем на экран трекер инициативы

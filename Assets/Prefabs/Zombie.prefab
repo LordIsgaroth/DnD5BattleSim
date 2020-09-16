@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3035218221065516048}
   - component: {fileID: 3035218221065516055}
   m_Layer: 0
-  m_Name: Desert_01
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,5 +125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9419621811a2a94e870c5e2e4a0b541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
   speed: 20
+  masteryBonus: 0
   crawling: 0
+  flying: 0
+  strenght: 0
+  dexterity: 0
+  maxHitPoints: 0

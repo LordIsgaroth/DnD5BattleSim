@@ -196,7 +196,14 @@ public class Character : MonoBehaviour
     private void SetUnconsious()
     {
         conscious = false;
-        this.transform.Rotate(0, 0, -90);
+
+        //изменение отрисовки спрайта, чтобы персонаж "упал". В дальнейшем вынести в отдельную фунуцию
+        Transform spritePosition = transform.Find("Sprite").transform;//gameObject.GetComponentInChildren<Transform>();
+        spritePosition.Rotate(0, 0, -90);
+        spritePosition.position = new Vector3(spritePosition.position.x, spritePosition.position.y - 0.5f, spritePosition.position.z);
+
+        //sprite.transform.Rotate(0, 0, -90);
+        //transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
     }
 
     private void CalculateInitiative()
