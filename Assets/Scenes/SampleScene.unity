@@ -14211,6 +14211,11 @@ PrefabInstance:
       propertyPath: maxHitPoints
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: team
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5a54eeb57d9e54a97dee6de21a69cf, type: 3}
 --- !u!1 &1124601353
@@ -14334,7 +14339,7 @@ MonoBehaviour:
     m_Bits: 256
   userInterface: {fileID: 23142656}
   tileSelected: {fileID: 11400000, guid: 6a40ad8bccd96c14899eb8ecc572e30a, type: 2}
-  tileAvalibleForMove: {fileID: 11400000, guid: eb68e2c30d413a84a923c73dc3229eec,
+  tileAvailableForMove: {fileID: 11400000, guid: eb68e2c30d413a84a923c73dc3229eec,
     type: 2}
   tileAffected: {fileID: 11400000, guid: 685a9c169b29f4743a1b30614b8d6d2c, type: 2}
   tileTarget: {fileID: 11400000, guid: 6f6c953b09c36f64db4cd65378fbabc2, type: 2}
@@ -14450,6 +14455,21 @@ PrefabInstance:
         type: 3}
       propertyPath: maxHitPoints
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: strenght
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: dexterity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: team
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5a54eeb57d9e54a97dee6de21a69cf, type: 3}
@@ -14748,6 +14768,21 @@ PrefabInstance:
         type: 3}
       propertyPath: maxHitPoints
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: strenght
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: dexterity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: team
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5a54eeb57d9e54a97dee6de21a69cf, type: 3}

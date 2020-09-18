@@ -13,13 +13,12 @@ public class TurnController : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Canvas userInterface;
     [SerializeField] private Tile tileSelected;
-    [SerializeField] private Tile tileAvalibleForMove;
+    [SerializeField] private Tile tileAvailableForMove;
     [SerializeField] private Tile tileAffected;
     [SerializeField] private Tile tileTarget;
 
     private GameController gameController;
     private Character currentCharacter = null;
-    //private Character character;
 
     private bool attackMode = false;
     private Vector3Int prevCoordinates;
@@ -55,7 +54,8 @@ public class TurnController : MonoBehaviour
         attackMode = false;
 
         avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
-        ShowAvalibleMovementTiles(avalibleMovementTiles);
+        ShowTilesFromHashtable(avalibleMovementTiles, tileAvailableForMove);
+        //ShowAvalibleMovementTiles(avalibleMovementTiles);
     }    
 
     public void SwitchAttackMode()
@@ -70,19 +70,21 @@ public class TurnController : MonoBehaviour
                 ClearTiles(attackArea.AffectedTiles);
                 ClearTilesFromHashtable(attackArea.AffectedCharacters);
             }
-            
-            ShowAvalibleMovementTiles(avalibleMovementTiles);
+
+            ShowTilesFromHashtable(avalibleMovementTiles, tileAvailableForMove);
+            //ShowAvalibleMovementTiles(avalibleMovementTiles);
         }
         else
         {
             attackMode = true;
-            ClearAvalibleMovementTiles(avalibleMovementTiles);
+            ClearTilesFromHashtable(avalibleMovementTiles);
 
             if (currentCharacter.ActionAvailable)
             {
                 attackArea = AreaCalculations.GetAreaOfEffect(Vector3Int.FloorToInt(currentCharacter.transform.position), currentCharacter.AttackRange, currentCharacter.Team);
                 ShowTiles(attackArea.AffectedTiles, tileAffected);
-                ShowTilesAtCharacterPositions(attackArea.AffectedCharacters, tileTarget);
+                ShowTilesFromHashtable(attackArea.AffectedCharacters, tileTarget);
+                //ShowTilesAtCharacterPositions(attackArea.AffectedCharacters, tileTarget);
             }            
         }    
     }
@@ -120,10 +122,11 @@ public class TurnController : MonoBehaviour
 
             Debug.Log(currentCharacter.name + " moved to: " + tilemapMousePos);
 
-            ClearAvalibleMovementTiles(avalibleMovementTiles);
+            ClearTilesFromHashtable(avalibleMovementTiles);
 
             avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
-            ShowAvalibleMovementTiles(avalibleMovementTiles);
+            ShowTilesFromHashtable(avalibleMovementTiles, tileAvailableForMove);
+            //ShowAvalibleMovementTiles(avalibleMovementTiles);
         }       
     }
 
@@ -151,25 +154,25 @@ public class TurnController : MonoBehaviour
         }
     }
 
-    void ShowAvalibleMovementTiles(Hashtable avalibleTiles)
+    void ShowTilesFromHashtable(Hashtable Table, Tile tileType)
     {
-        foreach (Vector3Int position in avalibleTiles.Keys)
+        foreach (Vector3Int position in Table.Keys)
         {
-            UILayer.SetTile(position, tileAvalibleForMove);
+            UILayer.SetTile(position, tileType);
         }        
+    }
+
+    void ClearTilesFromHashtable(Hashtable tiles)
+    {
+        foreach (Vector3Int position in tiles.Keys)
+        {
+            UILayer.SetTile(position, null);
+        }
     }
 
     void ShowTiles(HashSet<Vector3Int> setOfTiles, Tile tileType)
     {
         foreach (Vector3Int position in setOfTiles)
-        {
-            UILayer.SetTile(position, tileType);
-        }
-    }
-
-    void ShowTilesAtCharacterPositions(Hashtable characters, Tile tileType)
-    {
-        foreach (Vector3Int position in characters.Keys)
         {
             UILayer.SetTile(position, tileType);
         }
@@ -183,37 +186,11 @@ public class TurnController : MonoBehaviour
         }
     }
 
-    void ClearTilesFromHashtable(Hashtable tiles)
-    {
-        foreach (Vector3Int position in tiles.Keys)
-        {
-            UILayer.SetTile(position, null);
-        }
-    }
-
-    void ClearAvalibleMovementTiles(Hashtable avalibleTiles)
-    {
-        foreach (Vector3Int position in avalibleTiles.Keys)
-        {
-            UILayer.SetTile(position, null);
-        }
-
-        avalibleTiles.Clear();
-    }
-
-    void clearTilesAtCharacterPositions(List<Character> characters)
-    {
-        foreach (Character character in characters)
-        {
-            UILayer.SetTile(Vector3Int.FloorToInt(character.transform.position), null);
-        }
-    }
-
     void clearAllTiles()
     {
         if(avalibleMovementTiles != null)
         {
-            ClearAvalibleMovementTiles(avalibleMovementTiles);
+            ClearTilesFromHashtable(avalibleMovementTiles);
         }
         
         if (attackArea != null)
