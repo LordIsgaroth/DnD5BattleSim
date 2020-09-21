@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
@@ -45,6 +46,9 @@ public class Character : MonoBehaviour
     private int attackRange;
     private int initiative;
 
+    //Событие при потере сознания персонажем
+    public UnityEvent onUnconsiousEvent;
+
     public bool ActionAvailable { get { return actionAvailable; } }
     public bool Conscious { get { return conscious; } }
     public int CurrentSpeed { get { return currentSpeed; } }
@@ -63,6 +67,10 @@ public class Character : MonoBehaviour
         CalculateInitiative();
         DefineAttackRange();
         //Debug.Log(this.name + "'s AC = " + ArmorClass);
+
+        GameController gameController = GameObject.Find("GameManager").GetComponent<GameController>();
+
+        onUnconsiousEvent.AddListener(gameController.CheckVictoriousTeam);
     }
     
     public void Move(Vector3Int newPosition, int cost)
@@ -202,8 +210,7 @@ public class Character : MonoBehaviour
         spritePosition.Rotate(0, 0, -90);
         spritePosition.position = new Vector3(spritePosition.position.x, spritePosition.position.y - 0.5f, spritePosition.position.z);
 
-        //sprite.transform.Rotate(0, 0, -90);
-        //transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+        onUnconsiousEvent.Invoke();
     }
 
     private void CalculateInitiative()

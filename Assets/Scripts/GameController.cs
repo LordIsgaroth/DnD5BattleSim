@@ -49,7 +49,36 @@ public class GameController : MonoBehaviour
 
         Debug.Log("Round " + currentRound);
     }
-        
+ 
+    public void CheckVictoriousTeam()
+    {
+        int previousTeam = 1;
+        int victoriousTeam = 0;
+
+        foreach (Character character in allCharacters)
+        {
+            if (character.Conscious)
+            {
+                if(previousTeam != character.Team)
+                {
+                    return;
+                }
+
+                previousTeam = character.Team;
+                victoriousTeam = previousTeam;
+            }
+        }
+
+        if(victoriousTeam != 0)
+        {
+            Debug.Log("Team " + victoriousTeam + " wins");
+        }
+        else
+        {
+            Debug.Log("It's a draw!");
+        }
+    }
+
     private void NewRound()
     {
         foreach(Character character in allCharacters)

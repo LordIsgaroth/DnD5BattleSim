@@ -468,6 +468,9 @@ MonoBehaviour:
   strenght: 16
   dexterity: 10
   maxHitPoints: 50
+  onUnconsiousEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &437667281
 GameObject:
   m_ObjectHideFlags: 0
@@ -13893,6 +13896,9 @@ MonoBehaviour:
   strenght: 8
   dexterity: 16
   maxHitPoints: 35
+  onUnconsiousEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &978042241
 GameObject:
   m_ObjectHideFlags: 0
