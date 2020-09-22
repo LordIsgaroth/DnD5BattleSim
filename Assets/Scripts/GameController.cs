@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class GameController : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class GameController : MonoBehaviour
     private LinkedList<Character> initiativeTracker;
     private int currentRound;
     [SerializeField] private DiceSet d20;
+    //[SerializeField] private  endGameWindow;
 
     public DiceSet D20 { get { return d20; } }
         
@@ -54,6 +57,7 @@ public class GameController : MonoBehaviour
     {
         int previousTeam = 1;
         int victoriousTeam = 0;
+        string result;
 
         foreach (Character character in allCharacters)
         {
@@ -71,12 +75,15 @@ public class GameController : MonoBehaviour
 
         if(victoriousTeam != 0)
         {
-            Debug.Log("Team " + victoriousTeam + " wins");
+            result = "Team " + victoriousTeam + " wins";
         }
         else
         {
-            Debug.Log("It's a draw!");
+            result = "It's a draw!";
         }
+
+        //endGameWindow.
+
     }
 
     private void NewRound()
