@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
             allCharacters.Add(character);
             addCharacterToInitiativeTracker(character);
 
-            //Для тестирования установим воину некоторую экипировку
+            //Для тестирования установим персонажам некоторую экипировку
             if (characterObject.name == "Warrior")
             {
                 character.onMainHand = new Weapon("Longsword", 3, 15, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d8"), DamageType.FindByShortcut("S"), 5);

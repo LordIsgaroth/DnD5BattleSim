@@ -472,12 +472,6 @@ MonoBehaviour:
   onUnconsiousEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &364459770 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1844929569883213524, guid: d64c41b6f06b7dc42896afb647e27c12,
-    type: 3}
-  m_PrefabInstance: {fileID: 1844929570230892590}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &364459771 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1844929569883213525, guid: d64c41b6f06b7dc42896afb647e27c12,
@@ -858,7 +852,12 @@ PrefabInstance:
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: maxHitPoints
-      value: 1
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: masteryBonus
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5a54eeb57d9e54a97dee6de21a69cf, type: 3}
@@ -947,7 +946,12 @@ PrefabInstance:
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: maxHitPoints
-      value: 1
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: masteryBonus
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5a54eeb57d9e54a97dee6de21a69cf, type: 3}
@@ -14228,11 +14232,26 @@ PrefabInstance:
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: maxHitPoints
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: team
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: strenght
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: dexterity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: masteryBonus
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -14357,6 +14376,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   userInterface: {fileID: 23142656}
+  tileCurrentCharacter: {fileID: 11400000, guid: 3957827e1151e0b4680b6e50ec6ed403,
+    type: 2}
   tileSelected: {fileID: 11400000, guid: 6a40ad8bccd96c14899eb8ecc572e30a, type: 2}
   tileAvailableForMove: {fileID: 11400000, guid: eb68e2c30d413a84a923c73dc3229eec,
     type: 2}
@@ -14388,7 +14409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8470fbc5a31e8945a8499ee6dd321ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endGameWindow: {fileID: 364459770}
 --- !u!114 &1207060459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14474,7 +14494,7 @@ PrefabInstance:
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: maxHitPoints
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
@@ -14489,6 +14509,11 @@ PrefabInstance:
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: team
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: masteryBonus
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -14787,7 +14812,7 @@ PrefabInstance:
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: maxHitPoints
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
@@ -14802,6 +14827,11 @@ PrefabInstance:
     - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
         type: 3}
       propertyPath: team
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035218222240859451, guid: db5a54eeb57d9e54a97dee6de21a69cf,
+        type: 3}
+      propertyPath: masteryBonus
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
