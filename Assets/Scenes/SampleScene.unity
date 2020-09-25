@@ -14529,7 +14529,7 @@ GameObject:
   - component: {fileID: 1622420423}
   - component: {fileID: 1622420424}
   m_Layer: 0
-  m_Name: Mago
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

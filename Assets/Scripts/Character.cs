@@ -62,6 +62,22 @@ public class Character : MonoBehaviour
 
     void Start()
     {
+        //Для тестирования установим персонажам некоторую экипировку
+        if (name == "Warrior")
+        {
+            onMainHand = new Weapon("Longsword", 3, 15, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d8"), DamageType.FindByShortcut("S"), 5);
+            armor = new Armor("Chain Mail", 55, 75, EquipmentType.FindByShortcut("HA"), 16);
+        }
+        else if (name == "Wizard")
+        {
+            onMainHand = new Weapon("Quarterstaff", 2, 4, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d6"), DamageType.FindByShortcut("B"), 5);
+        }
+        //Если зомби - установим оружие "когти зомби"
+        else if (name.Contains("Zombie"))
+        {
+            onMainHand = new Weapon("Zombie's claws", 0, 0, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d6"), DamageType.FindByShortcut("B"), 5);
+        }
+
         InitializeParameters();
         CalculateArmorClass();
         CalculateInitiative();
@@ -113,6 +129,8 @@ public class Character : MonoBehaviour
         {
             armorClass = 10 + GetAbilityModifier(currentDexterity);
         }
+
+        Debug.Log(armorClass);
     }
 
     private void DefineAttackRange()
