@@ -35,14 +35,17 @@ public class TurnController : MonoBehaviour
 
     void Update()
     {
-        RaycastHit2D hit = Physics2D.Raycast(camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
-
-        ShowSelectedTile(hit);
-
-        if (Input.GetMouseButtonDown(0))
+        if (!gameController.GamePaused)
         {
-            if (attackMode) { PerformAttack(hit); }
-            else { MoveCharacter(hit); }
+            RaycastHit2D hit = Physics2D.Raycast(camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, layerMask);
+
+            ShowSelectedTile(hit);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (attackMode) { PerformAttack(hit); }
+                else { MoveCharacter(hit); }
+            }
         }
     }
 

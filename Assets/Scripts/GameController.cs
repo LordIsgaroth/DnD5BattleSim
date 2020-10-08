@@ -3,17 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
 {
     private List<Character> allCharacters;
     private LinkedList<Character> initiativeTracker;
     private int currentRound;
+    private bool gamePaused = false;
     [SerializeField] private DiceSet d20;
-    //[SerializeField] private  endGameWindow;
+
+    //Переменные для элементов интерфейса
+    //Модальное окно окончания игры
+    private ModalPanel modalPanel;
+    private UnityAction quitAction;
+
+    public bool GamePaused { get { return gamePaused; } }
 
     public DiceSet D20 { get { return d20; } }
-        
+
+    void Awake()
+    {
+        modalPanel = ModalPanel.Instance();
+        quitAction = new UnityAction(QuitAction);
+    }
+
     void Start()
     {
         Library.initializeGameData();
@@ -41,7 +55,7 @@ public class GameController : MonoBehaviour
 
         Debug.Log("Round " + currentRound);
     }
- 
+
     public void CheckVictoriousTeam()
     {
         int previousTeam = 1;
@@ -71,8 +85,7 @@ public class GameController : MonoBehaviour
             result = "It's a draw!";
         }
 
-        //endGameWindow.
-
+        EndGame("Battle is over! " + result);
     }
 
     private void NewRound()
@@ -158,5 +171,17 @@ public class GameController : MonoBehaviour
         }
 
         return nextCharacter;
+    }
+
+    private void EndGame(string endGameText)
+    {
+        gamePaused = true;
+        modalPanel.Choise(endGameText, quitAction);
+    }
+
+    void QuitAction()
+    {
+        gamePaused = false;
+        Debug.Log("Battle is over!");
     }
 }
