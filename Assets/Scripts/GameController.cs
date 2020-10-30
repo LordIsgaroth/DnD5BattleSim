@@ -13,10 +13,13 @@ public class GameController : MonoBehaviour
     private bool gamePaused = false;
     [SerializeField] private DiceSet d20;
 
+    private StringEvent logEvent;    
+
     //Переменные для элементов интерфейса
     //Модальное окно окончания игры
     private ModalPanel modalPanel;
     private UnityAction quitAction;
+    
 
     public bool GamePaused { get { return gamePaused; } }
 
@@ -26,6 +29,7 @@ public class GameController : MonoBehaviour
     {
         modalPanel = ModalPanel.Instance();
         quitAction = new UnityAction(QuitAction);
+        logEvent = new StringEvent();
     }
 
     void Start()
@@ -45,15 +49,19 @@ public class GameController : MonoBehaviour
             addCharacterToInitiativeTracker(character);            
         }
 
+        LogWindow logWindow = GameObject.Find("LogWindow").GetComponent<LogWindow>();
+
+        logEvent.AddListener(logWindow.DisplayIntoLogWindow);
+
         //Для тестирования выведем на экран трекер инициативы
         foreach (Character character in initiativeTracker)
         {
-            Debug.Log(character.name + "'s initiative is " + character.Initiative);
+            logEvent.Invoke(character.name + "'s initiative is " + character.Initiative);
         }
 
         currentRound = 1;
 
-        Debug.Log("Round " + currentRound);
+        logEvent.Invoke("Round " + currentRound);
     }
 
     public void CheckVictoriousTeam()
@@ -158,8 +166,8 @@ public class GameController : MonoBehaviour
         {
             currentRound++;
             NewRound();
-            Debug.Log("Round " + currentRound);
-            Debug.Log(initiativeTracker.First.Value);
+            logEvent.Invoke("Round " + currentRound);
+            logEvent.Invoke(initiativeTracker.First.Value.ToString());
             nextCharacter = initiativeTracker.First.Value;
         }
 
@@ -182,6 +190,5 @@ public class GameController : MonoBehaviour
     void QuitAction()
     {
         gamePaused = false;
-        Debug.Log("Battle is over!");
     }
 }

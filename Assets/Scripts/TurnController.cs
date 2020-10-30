@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class TurnController : MonoBehaviour
 {
-    //[SerializeField] private Character currentCharacter;    
     [SerializeField] private Grid grid;
     [SerializeField] private Tilemap UILayer;
     [SerializeField] private Tilemap CursorLayer;
@@ -26,9 +25,18 @@ public class TurnController : MonoBehaviour
     private Hashtable avalibleMovementTiles;
     private AreaOfEffect attackArea;
 
-    void Start()
+    private StringEvent logEvent;
+
+    void Awake()
     {
         gameController = GameObject.Find("GameManager").GetComponent<GameController>();
+        logEvent = new StringEvent();
+    }
+
+    void Start()
+    {
+        LogWindow logWindow = GameObject.Find("LogWindow").GetComponent<LogWindow>();
+        logEvent.AddListener(logWindow.DisplayIntoLogWindow);
 
         StartTurn();
     }
@@ -129,8 +137,8 @@ public class TurnController : MonoBehaviour
 
             currentCharacter.Move(tilemapMousePos, 0);
             currentCharacter.ChangeCurrentSpeedByCost((int)avalibleMovementTiles[tilemapMousePos]);
-                  
-            Debug.Log(currentCharacter.name + " moved to: " + tilemapMousePos);
+
+            logEvent.Invoke(currentCharacter.name + " moved to: " + tilemapMousePos);
 
             ClearTilesFromHashtable(avalibleMovementTiles);
 

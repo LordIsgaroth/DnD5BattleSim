@@ -82,7 +82,6 @@ public class Character : MonoBehaviour
         CalculateArmorClass();
         CalculateInitiative();
         DefineAttackRange();
-        //Debug.Log(this.name + "'s AC = " + ArmorClass);
 
         GameController gameController = GameObject.Find("GameManager").GetComponent<GameController>();
 
