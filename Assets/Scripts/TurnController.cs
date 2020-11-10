@@ -159,11 +159,34 @@ public class TurnController : MonoBehaviour
         if (attackArea.AffectedCharacters.Contains(tilemapMousePos))
         {
             Character targetCharacter = (Character)attackArea.AffectedCharacters[tilemapMousePos];
-            Attack attack = currentCharacter.PerformAttack(targetCharacter.ArmorClass);
+            Attack attack = currentCharacter.PerformMainHandAttack(targetCharacter.ArmorClass);
 
-            if (attack.Successfull)
+            int hitValue = attack.HitRoll(Roll20Type.Normal); //В будущем добавить атаки с преимуществом/помехой в соответствии с необходимыми условиями
+
+            logEvent.Invoke(currentCharacter.name + " attacks " + targetCharacter.name);
+            
+            if (attack.isCriticalFail)
             {
-                targetCharacter.TakeDamage(attack);
+                logEvent.Invoke("Critical fail!");
+            }
+            else if (attack.isCriticalSuccess)
+            {
+                logEvent.Invoke("Critical hit!");
+                int damage = attack.DamageRoll(true);
+                targetCharacter.TakeDamage(damage);
+                logEvent.Invoke(targetCharacter.name + " takes " + damage + " damage");
+            }
+            else if (hitValue >= targetCharacter.ArmorClass)
+            {
+                logEvent.Invoke("Hit value: " + hitValue);
+                int damage = attack.DamageRoll();
+                targetCharacter.TakeDamage(damage);
+                logEvent.Invoke(targetCharacter.name + " takes " + damage + " damage");
+            }
+            else
+            {
+                logEvent.Invoke("Hit value: " + hitValue);
+                logEvent.Invoke(currentCharacter.name + " misses");
             }
 
             ClearTiles(attackArea.AffectedTiles);

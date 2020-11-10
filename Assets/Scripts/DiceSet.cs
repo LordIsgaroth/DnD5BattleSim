@@ -26,7 +26,7 @@ public class DiceSet
 
         for (int i = 1; i <= quantity; i++)
         {
-            result += UnityEngine.Random.Range(1, type);
+            result += UnityEngine.Random.Range(1, type + 1);
         }
 
         return result;
@@ -63,8 +63,8 @@ public class DiceSet
 
         if(int.TryParse(parts[0], out quantity) && int.TryParse(parts[1], out type))
         {
-            //Количество должно быть больше нуля, а значение должно быть равно числу граней одного из используемых в dnd кубов
-            if (quantity > 0 && (type == 4 || type == 6 || type == 8 || type == 10 || type == 12 || type == 20 || type == 100))
+            //Количество должно быть больше нуля, а значение должно быть равно числу граней одного из используемых в dnd кубов, либо 1 для жёстко заданного урона
+            if (quantity > 0 && (type == 1 ||type == 4 || type == 6 || type == 8 || type == 10 || type == 12 || type == 20 || type == 100))
             {
                 return new Tuple<int, int>(quantity, type);                
             }

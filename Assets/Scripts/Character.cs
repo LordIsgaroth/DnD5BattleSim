@@ -149,67 +149,34 @@ public class Character : MonoBehaviour
         return (abilityValue - 10) / 2;
     }
 
-    public Attack PerformAttack(int targetArmorClass)
+    public Attack PerformMainHandAttack(int targetArmorClass)
     {
         //Отметим, что действие в этот ход уже совершалось
         actionAvailable = false;
 
-        int damage = 0;
-        DamageType type = DamageType.FindByShortcut("B");
-
-        DiceSet D20 = DiceSet.GetDiceSet("1d20");
-
-        int D20Roll = 0;
-        if (D20 != null) D20Roll = D20.Roll();
+        int hitModifier = 0;
+        int damageModifier = 0;
+        DamageType damageType = DamageType.FindByShortcut("B"); // Если оружия в руках нет - тип урона рукопашной атаки по умолчанию дробящий
+        DiceSet diceSet = DiceSet.GetDiceSet("1d1"); //Рукопашная атака наносит 1 повреждение
 
         if (onMainHand != null)
         {
             int strenghtModifier = GetAbilityModifier(currentStrenght);
-            int hitValue = D20Roll + masteryBonus + strenghtModifier;
 
-            Debug.Log("Hit value: " + hitValue);
-
-            if (hitValue >= targetArmorClass)
-            {
-                damage = onMainHand.DealDamage() + strenghtModifier;
-                type = onMainHand.DamageType;               
-            }
-            else
-            {
-                return new Attack(false);
-            }
-        }
-        else
-        {
-            //Совершение рукопашной атаки
-            int strenghtModifier = GetAbilityModifier(currentStrenght);
-            int hitValue = D20Roll + strenghtModifier;
-
-            Debug.Log("Hit value: " + hitValue);
-
-            if (hitValue >= targetArmorClass)
-            {
-                damage = 1 + strenghtModifier;
-            }
-            else
-            {
-                return new Attack(false);
-            }
+            hitModifier = strenghtModifier + masteryBonus;
+            damageModifier = strenghtModifier;
+            damageType = onMainHand.DamageType;
+            diceSet = onMainHand.DamageDice;
         }
 
-        //Урон не может быть меньше 1
-        if (damage < 1) damage = 1;
-
-        Debug.Log("Damage: " + damage);
-
-        return new Attack(true, damage, type);
+        return new Attack(hitModifier, damageModifier, damageType, diceSet);
     }
 
-    public void TakeDamage(Attack attack)
+    public void TakeDamage(int damage)
     {
         //В будущем здесь должна быть проверка на сопротивляемость/неуязвимость к типам урона
 
-        currentHitPoints -= attack.DamageValue;
+        currentHitPoints -= damage;
         Debug.Log(gameObject.name + " current HP is " + currentHitPoints);
 
         if (currentHitPoints <= 0)
