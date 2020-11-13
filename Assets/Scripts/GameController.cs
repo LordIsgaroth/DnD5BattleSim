@@ -18,8 +18,7 @@ public class GameController : MonoBehaviour
     //Переменные для элементов интерфейса
     //Модальное окно окончания игры
     private ModalPanel modalPanel;
-    private UnityAction quitAction;
-    
+    private UnityAction quitAction;    
 
     public bool GamePaused { get { return gamePaused; } }
 
@@ -149,7 +148,6 @@ public class GameController : MonoBehaviour
         //Текущего персонажа нет - первый ход в партии. Вернуть первого в списке инициативы
         if (currentCharacter == null)
         {
-            Debug.Log(initiativeTracker.First.Value);
             return initiativeTracker.First.Value;
         }
 
@@ -158,7 +156,6 @@ public class GameController : MonoBehaviour
         //Если есть следующий в списке - вернуть его
         if(currentNode.Next != null)
         {
-            Debug.Log(currentNode.Next.Value);
             nextCharacter = currentNode.Next.Value;
         }
         //Если нет - начинается следующий раунд. Вернуть первого в списке инициативы
@@ -174,7 +171,6 @@ public class GameController : MonoBehaviour
         //Если следующий персонаж без сознания - вернуть следующего за ним
         if (!nextCharacter.Conscious)
         {
-            Debug.Log(nextCharacter);
             nextCharacter = GetNextCharacter(nextCharacter);
         }
 

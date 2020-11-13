@@ -11,6 +11,8 @@ public class DiceSet
     private int quantity;
     private int type;
 
+    public string Name { get { return name; } }
+
     public DiceSet(int quantity, int type)
     {
         name = quantity + "d" + type;

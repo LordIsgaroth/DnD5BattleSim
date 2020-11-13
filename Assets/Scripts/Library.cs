@@ -28,5 +28,6 @@ public static class Library
         new DamageType("B", "Bludgeoning");
         new DamageType("P", "Piersing");
         new DamageType("S", "Slashing");
+        new DamageType("F", "Fire");
     }
 }

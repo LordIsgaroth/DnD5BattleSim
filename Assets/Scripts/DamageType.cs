@@ -19,9 +19,14 @@ public class DamageType : TypeWithShortcut
     }
     
     public static DamageType FindByShortcut(string shortcut)
-    {
+    {        
         if (damageTypes.ContainsKey(shortcut))
+        {
+            //Debug.Log(shortcut);
             return damageTypes[shortcut];
+        }
+
+        Debug.Log("!");
 
         return null;
     }

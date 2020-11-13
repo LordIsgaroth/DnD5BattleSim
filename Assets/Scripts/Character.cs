@@ -51,6 +51,7 @@ public class Character : MonoBehaviour
 
     public bool ActionAvailable { get { return actionAvailable; } }
     public bool Conscious { get { return conscious; } }
+    public int MaxSpeed { get { return speed; } }
     public int CurrentSpeed { get { return currentSpeed; } }
     public bool isCrawling { get { return crawling; } }
     public bool isFlying { get { return flying; } }
@@ -59,6 +60,42 @@ public class Character : MonoBehaviour
     public int MasteryBonus { get { return masteryBonus; } }
     public int AttackRange { get { return attackRange; } }
     public int Initiative { get { return initiative; } }
+    public int CurrentHp { get { return currentHitPoints; } }
+    public int MaxHp { get { return currentMaxHitPoints; } }
+
+    public string AttackData
+    {
+        get
+        {
+            string attackData = "";
+
+            DamageType damageType = DamageType.FindByShortcut("B"); // Если оружия в руках нет - тип урона рукопашной атаки по умолчанию дробящий
+
+            if (onMainHand != null)
+            {
+                int strenghtModifier = GetAbilityModifier(currentStrenght);
+
+                string modStr = "";
+
+                if(strenghtModifier > 0)
+                {
+                    modStr = "+" + strenghtModifier;
+                }
+                else if(strenghtModifier < 0)
+                {
+                    modStr = strenghtModifier.ToString();
+                }
+
+                attackData = onMainHand.DamageDice.Name + " " + modStr + " " + onMainHand.DamageType.Name.ToLower();
+            }
+            else
+            {
+                attackData = 1 + " " + damageType.Name.ToLower();
+            }
+             
+            return attackData;
+        }
+    }
 
     void Start()
     {
@@ -70,7 +107,8 @@ public class Character : MonoBehaviour
         }
         else if (name == "Wizard")
         {
-            onMainHand = new Weapon("Quarterstaff", 2, 4, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d6"), DamageType.FindByShortcut("B"), 5);
+            //onMainHand = new Weapon("Quarterstaff", 2, 4, EquipmentType.FindByShortcut("M"), DiceSet.GetDiceSet("1d6"), DamageType.FindByShortcut("B"), 5);
+            onMainHand = new Weapon("Fire bolt", 0, 0, EquipmentType.FindByShortcut("R"), DiceSet.GetDiceSet("1d10"), DamageType.FindByShortcut("F"), 30);
         }
         //Если зомби - установим оружие "когти зомби"
         else if (name.Contains("Zombie"))
@@ -128,8 +166,6 @@ public class Character : MonoBehaviour
         {
             armorClass = 10 + GetAbilityModifier(currentDexterity);
         }
-
-        Debug.Log(armorClass);
     }
 
     private void DefineAttackRange()
@@ -177,7 +213,6 @@ public class Character : MonoBehaviour
         //В будущем здесь должна быть проверка на сопротивляемость/неуязвимость к типам урона
 
         currentHitPoints -= damage;
-        Debug.Log(gameObject.name + " current HP is " + currentHitPoints);
 
         if (currentHitPoints <= 0)
         {

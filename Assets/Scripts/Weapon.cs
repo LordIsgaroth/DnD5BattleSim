@@ -15,11 +15,6 @@ public class Weapon : Equipment
         this.range = range;
     }
 
-    /*public int DealDamage()
-    {
-        return damageDice.Roll();
-    */
-
     public int Range { get { return range; } }
     public DamageType DamageType { get { return damageType; } }
     public DiceSet DamageDice { get { return damageDice; } }

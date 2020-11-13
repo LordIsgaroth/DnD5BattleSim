@@ -17,6 +17,9 @@ public class TurnController : MonoBehaviour
     [SerializeField] private Tile tileAffected;
     [SerializeField] private Tile tileTarget;
 
+    //Окно персонажа
+    [SerializeField] private CharacterWindow characterWindow;
+
     private GameController gameController;
     private Character currentCharacter = null;
 
@@ -67,6 +70,7 @@ public class TurnController : MonoBehaviour
         }
 
         currentCharacter = gameController.GetNextCharacter(currentCharacter);
+        DisplayCurrentCharacterData();
 
         setTileOnPosition(Vector3Int.FloorToInt(currentCharacter.transform.position), tileCurrentCharacter);
 
@@ -74,7 +78,17 @@ public class TurnController : MonoBehaviour
 
         avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
         ShowTilesFromHashtable(avalibleMovementTiles, tileAvailableForMove);
-    }    
+    }
+    
+    public void DisplayCurrentCharacterData()
+    {
+        string characterName = currentCharacter.name;
+        string hp = currentCharacter.CurrentHp + "/" + currentCharacter.MaxHp;
+        string movement = currentCharacter.CurrentSpeed + "/" + currentCharacter.MaxSpeed + " ft.";
+        string attackInfo = currentCharacter.AttackData;
+
+        characterWindow.DisplayCharacterData(characterName, hp, movement, attackInfo);
+    }
 
     public void SwitchAttackMode()
     {
@@ -146,7 +160,9 @@ public class TurnController : MonoBehaviour
 
             avalibleMovementTiles = AreaCalculations.GetTilesAvalibleForMovement(currentCharacter);
             ShowTilesFromHashtable(avalibleMovementTiles, tileAvailableForMove);
-        }       
+        }
+
+        DisplayCurrentCharacterData();
     }
 
     private void PerformAttack(RaycastHit2D hit)
