@@ -97,7 +97,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         //Для тестирования установим персонажам некоторую экипировку
         if (name == "Warrior")
@@ -119,8 +119,11 @@ public class Character : MonoBehaviour
         InitializeParameters();
         CalculateArmorClass();
         CalculateInitiative();
-        DefineAttackRange();
+        DefineAttackRange();        
+    }
 
+    void Start()
+    {
         GameController gameController = GameObject.Find("GameManager").GetComponent<GameController>();
 
         onUnconsiousEvent.AddListener(gameController.CheckVictoriousTeam);

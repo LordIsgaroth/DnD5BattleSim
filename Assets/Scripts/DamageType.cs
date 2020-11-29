@@ -22,11 +22,8 @@ public class DamageType : TypeWithShortcut
     {        
         if (damageTypes.ContainsKey(shortcut))
         {
-            //Debug.Log(shortcut);
             return damageTypes[shortcut];
         }
-
-        Debug.Log("!");
 
         return null;
     }

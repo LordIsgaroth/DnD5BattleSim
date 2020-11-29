@@ -26,6 +26,8 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        Library.initializeGameData();
+
         modalPanel = ModalPanel.Instance();
         quitAction = new UnityAction(QuitAction);
         logEvent = new StringEvent();
@@ -33,8 +35,6 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        Library.initializeGameData();
-
         allCharacters = new List<Character>();
         initiativeTracker = new LinkedList<Character>();
 

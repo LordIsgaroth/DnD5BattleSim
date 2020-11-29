@@ -15041,7 +15041,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974970387}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: -8, z: 0}
+  m_LocalPosition: {x: -2, y: -12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1622420423}
@@ -15064,9 +15064,9 @@ MonoBehaviour:
   speed: 30
   masteryBonus: 3
   crawling: 0
-  flying: 0
+  flying: 1
   strenght: 10
-  dexterity: 16
+  dexterity: 26
   maxHitPoints: 35
   onUnconsiousEvent:
     m_PersistentCalls:
