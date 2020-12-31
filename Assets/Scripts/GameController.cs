@@ -186,5 +186,6 @@ public class GameController : MonoBehaviour
     void QuitAction()
     {
         gamePaused = false;
+        Application.Quit();
     }
 }

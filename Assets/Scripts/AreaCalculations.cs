@@ -171,7 +171,7 @@ public static class AreaCalculations
                     for (int x = currentPosition.x - range_x; x <= currentPosition.x + range_x; x += range_x)
                     {
                         for (int y = currentPosition.y - range_y; y <= currentPosition.y + range_y; y += range_y)
-                        {
+                        {                          
                             counter++;
 
                             Vector3Int availablePosition = new Vector3Int(x, y, currentPosition.z);
@@ -180,7 +180,7 @@ public static class AreaCalculations
 
                             if (characterAtPosition)
                             {
-                                if (characterAtPosition.Team != team && characterAtPosition.Conscious)
+                                if (characterAtPosition.Team != team && characterAtPosition.Conscious && !characters.Contains(availablePosition))
                                 {
                                     characters.Add(availablePosition, characterAtPosition);
                                 }
